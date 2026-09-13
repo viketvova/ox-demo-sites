@@ -4,59 +4,100 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Демо-сайти клінік — портфоліо</title>
-<meta name="description" content="Приклади лендингів для стоматологій і ветклінік. Безкоштовний аудит і макет для вашого бізнесу.">
+<meta name="description" content="Живі приклади лендингів для стоматологій і ветклінік. Безкоштовний макет для вашого бізнесу.">
 <style>
 :root{
-  --ink:#0f172a;--muted:#64748b;--bg:#f8fafc;--card:#fff;--line:#e2e8f0;
-  --accent:#0d9488;--accent2:#0f766e;
+  --ink:#0f172a;--muted:#64748b;--bg:#f1f5f9;--card:#fff;--line:#e2e8f0;
+  --accent:#0d9488;--accent2:#0f766e;--radius:22px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
 a{text-decoration:none;color:inherit}
-.wrap{width:min(1100px,92%);margin:0 auto}
-header{padding:48px 0 28px;text-align:center}
-.pill{display:inline-block;background:#ccfbf1;color:var(--accent2);font-size:12px;font-weight:700;
-  letter-spacing:.12em;padding:6px 14px;border-radius:999px;margin-bottom:14px}
-h1{font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;margin-bottom:10px}
-.sub{color:var(--muted);max-width:560px;margin:0 auto 28px;font-size:16px}
+.wrap{width:min(1120px,94%);margin:0 auto}
+
+header{padding:52px 0 20px;text-align:center;
+  background:
+    radial-gradient(700px 280px at 50% -40px, #ccfbf1 0%, transparent 70%),
+    var(--bg)}
+.pill{display:inline-block;background:#fff;border:1px solid #99f6e4;color:var(--accent2);
+  font-size:12px;font-weight:700;letter-spacing:.12em;padding:7px 14px;border-radius:999px;
+  margin-bottom:16px;box-shadow:0 4px 14px rgba(13,148,136,.08)}
+h1{font-size:clamp(30px,4.2vw,42px);letter-spacing:-.03em;margin-bottom:12px;font-weight:800}
+h1 em{font-style:normal;color:var(--accent2)}
+.sub{color:var(--muted);max-width:580px;margin:0 auto 28px;font-size:16px}
 .contact{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
-.btn{display:inline-flex;padding:12px 20px;border-radius:12px;font-weight:700;font-size:14px}
-.btn-p{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:14px;
+  font-weight:700;font-size:14px;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;
+  box-shadow:0 10px 24px rgba(13,148,136,.3)}
 .btn-s{background:#fff;border:1px solid var(--line);color:var(--ink)}
-h2{font-size:14px;letter-spacing:.14em;color:var(--accent2);margin:36px 0 16px;text-transform:uppercase}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding-bottom:48px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;
-  transition:.2s;display:flex;flex-direction:column}
-.card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(15,23,42,.08);border-color:#99f6e4}
-.thumb{height:150px;display:grid;place-items:center;font-size:42px;color:#fff;font-weight:800}
-.thumb.d1{background:linear-gradient(135deg,#0b3c5d,#1a7fb8)}
-.thumb.d2{background:linear-gradient(135deg,#0c0c0c,#3a3018)}
-.thumb.d3{background:linear-gradient(135deg,#4a90d9,#f8bbd0)}
-.thumb.v1{background:linear-gradient(135deg,#c45c26,#e07a3d)}
-.thumb.v2{background:linear-gradient(135deg,#1b4332,#52796f)}
-.thumb.v3{background:linear-gradient(135deg,#12100e,#c47a4a)}
-.body{padding:18px 18px 20px;flex:1;display:flex;flex-direction:column}
-.tag{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
-.card h3{font-size:17px;margin-bottom:6px}
-.card p{font-size:13px;color:var(--muted);flex:1;margin-bottom:14px}
-.open{display:inline-flex;align-items:center;gap:6px;color:var(--accent2);font-weight:700;font-size:14px}
-footer{border-top:1px solid var(--line);padding:28px 0 40px;text-align:center;color:var(--muted);font-size:13px}
-footer b{color:var(--ink)}
-.note{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;
-  margin:0 auto 12px;max-width:720px;font-size:14px;color:var(--muted)}
+
+.note{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 22px;
+  margin:28px auto 8px;max-width:720px;font-size:14px;color:var(--muted);
+  box-shadow:0 4px 16px rgba(15,23,42,.04)}
 .note b{color:var(--ink)}
+
+h2{font-size:13px;letter-spacing:.16em;color:var(--accent2);margin:40px 0 16px;text-transform:uppercase;
+  display:flex;align-items:center;gap:12px}
+h2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#99f6e4,transparent)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;padding-bottom:28px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;transition:.25s;
+  box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.card:hover{transform:translateY(-5px);box-shadow:0 20px 48px rgba(15,23,42,.12);
+  border-color:#5eead4}
+
+.thumb{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0f172a}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:center top;
+  transition:transform .45s ease;display:block}
+.card:hover .thumb img{transform:scale(1.05)}
+.thumb::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 45%,rgba(15,23,42,.55) 100%)}
+.thumb .badge{position:absolute;top:12px;left:12px;z-index:2;
+  background:rgba(255,255,255,.94);color:var(--ink);font-size:11px;font-weight:800;
+  letter-spacing:.06em;padding:6px 10px;border-radius:999px;
+  box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.thumb .city{position:absolute;bottom:12px;left:14px;z-index:2;color:#fff;
+  font-size:12px;font-weight:600;letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+
+.body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column}
+.card h3{font-size:18px;margin-bottom:6px;letter-spacing:-.01em}
+.card p{font-size:13.5px;color:var(--muted);flex:1;margin-bottom:14px}
+.open{display:inline-flex;align-items:center;gap:6px;color:var(--accent2);font-weight:700;font-size:14px}
+.open span{transition:transform .2s}
+.card:hover .open span{transform:translateX(4px)}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;
+  background:#f0fdfa;color:var(--accent2);border:1px solid #ccfbf1}
+
+footer{border-top:1px solid var(--line);padding:32px 0 48px;text-align:center;color:var(--muted);font-size:13px}
+footer b{color:var(--ink)}
+.cta-band{margin:20px 0 48px;background:linear-gradient(135deg,#0f766e,#0d9488);
+  border-radius:24px;padding:32px 28px;color:#fff;display:flex;justify-content:space-between;
+  align-items:center;gap:20px;flex-wrap:wrap}
+.cta-band h3{font-size:22px;margin-bottom:6px}
+.cta-band p{opacity:.85;font-size:14px;max-width:420px}
+.cta-band .btn{background:#fff;color:var(--accent2)}
+
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .cta-band{flex-direction:column;text-align:center}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="pill">ПОРТФОЛІО · ДЕМО-МАКЕТИ</div>
-    <h1>Сайти клінік, які приводять пацієнтів</h1>
-    <p class="sub">6 живих прикладів лендингів: стоматологія та ветклініка.
-    Кожен — з цінами, графіком, формою запису та мобільною версією.</p>
+    <div class="pill">ПОРТФОЛІО · 6 ЖИВИХ ДЕМО</div>
+    <h1>Сайти клінік, які <em>приводять пацієнтів</em></h1>
+    <p class="sub">Реальні макети лендингів: фото, ціни, графік роботи, FAQ та форма запису.
+    Відкрийте будь-який і подивіться, як виглядатиме сайт вашого бізнесу.</p>
     <div class="contact">
       <a class="btn btn-p" href="https://t.me/ChestJRC">Написати в Telegram</a>
-      <a class="btn btn-s" href="#demos">Дивитися демо</a>
+      <a class="btn btn-s" href="#demos">Дивитися демо ↓</a>
     </div>
   </header>
 
@@ -68,30 +109,42 @@ footer b{color:var(--ink)}
   <h2 id="demos">Стоматологія</h2>
   <div class="grid">
     <a class="card" href="dent/modern/">
-      <div class="thumb d1">D</div>
+      <div class="thumb">
+        <img src="assets/thumbs/dent-modern.jpg" alt="DentaLine — сучасна стоматологія" width="800" height="500" loading="lazy">
+        <span class="badge">СТОМАТОЛОГІЯ</span>
+        <span class="city">Одеса</span>
+      </div>
       <div class="body">
-        <div class="tag">СТОМАТОЛОГІЯ · ОДЕСА</div>
         <h3>DentaLine — Modern</h3>
-        <p>Клінічний синій, фото кабінету, ціни, FAQ, онлайн-запис, графік роботи.</p>
-        <span class="open">Відкрити демо →</span>
+        <div class="chips"><span class="chip">фото кабінету</span><span class="chip">ціни</span><span class="chip">FAQ</span></div>
+        <p>Клінічний синій, онлайн-запис, графік роботи, команда лікарів.</p>
+        <span class="open">Відкрити демо <span>→</span></span>
       </div>
     </a>
     <a class="card" href="dent/lux/">
-      <div class="thumb d2">S</div>
+      <div class="thumb">
+        <img src="assets/thumbs/dent-lux.jpg" alt="Smile Atelier — преміум" width="800" height="500" loading="lazy">
+        <span class="badge">ЕСТЕТИКА</span>
+        <span class="city">Харків</span>
+      </div>
       <div class="body">
-        <div class="tag">ЕСТЕТИКА · ХАРКІВ</div>
         <h3>Smile Atelier — Lux</h3>
-        <p>Преміальний чорний + золото. Вініри, DSD, приватний кабінет.</p>
-        <span class="open">Відкрити демо →</span>
+        <div class="chips"><span class="chip">вініри</span><span class="chip">DSD</span><span class="chip">преміум</span></div>
+        <p>Чорний + золото. Приватний кабінет, цифрове проектування усмішки.</p>
+        <span class="open">Відкрити демо <span>→</span></span>
       </div>
     </a>
     <a class="card" href="dent/family/">
-      <div class="thumb d3">😁</div>
+      <div class="thumb">
+        <img src="assets/thumbs/dent-family.jpg" alt="Усмішка Family" width="800" height="500" loading="lazy">
+        <span class="badge">СІМЕЙНА</span>
+        <span class="city">Вінниця</span>
+      </div>
       <div class="body">
-        <div class="tag">СІМЕЙНА · ВІННИЦЯ</div>
         <h3>Усмішка Family</h3>
-        <p>М’який дизайн «не страшно дітям». Дитячий візит, седація, запис родиною.</p>
-        <span class="open">Відкрити демо →</span>
+        <div class="chips"><span class="chip">дітям</span><span class="chip">седація</span><span class="chip">м’яко</span></div>
+        <p>«Не страшно йти дітям». Дитячий візит-знайомство, запис родиною.</p>
+        <span class="open">Відкрити демо <span>→</span></span>
       </div>
     </a>
   </div>
@@ -99,37 +152,57 @@ footer b{color:var(--ink)}
   <h2>Ветклініка</h2>
   <div class="grid">
     <a class="card" href="vet/warm/">
-      <div class="thumb v1">🐾</div>
+      <div class="thumb">
+        <img src="assets/thumbs/vet-warm.jpg" alt="Лапка Care" width="800" height="500" loading="lazy">
+        <span class="badge">ВЕТ</span>
+        <span class="city">Дніпро</span>
+      </div>
       <div class="body">
-        <div class="tag">ВЕТ · ДНІПРО</div>
         <h3>Лапка Care — Warm</h3>
-        <p>Теракота й тепло. Стаціонар 24/7, виклик додому, ціни на послуги.</p>
-        <span class="open">Відкрити демо →</span>
+        <div class="chips"><span class="chip">24/7 стаціонар</span><span class="chip">виклик додому</span></div>
+        <p>Теракота й тепло. Ціни, графік до 21:00, форма під собаку/кота.</p>
+        <span class="open">Відкрити демо <span>→</span></span>
       </div>
     </a>
     <a class="card" href="vet/forest/">
-      <div class="thumb v2">🌿</div>
+      <div class="thumb">
+        <img src="assets/thumbs/vet-forest.jpg" alt="ЗооДім Зелений" width="800" height="500" loading="lazy">
+        <span class="badge">ВЕТ · ECO</span>
+        <span class="city">Львів</span>
+      </div>
       <div class="body">
-        <div class="tag">ВЕТ · ЛЬВІВ</div>
         <h3>ЗооДім — Forest</h3>
-        <p>Eco / Fear Free. Окремі зони для котів, прозорий кошторис.</p>
-        <span class="open">Відкрити демо →</span>
+        <div class="chips"><span class="chip">Fear Free</span><span class="chip">окремі зони</span></div>
+        <p>Лісний зелений. Спокій для котів, прозорий кошторис.</p>
+        <span class="open">Відкрити демо <span>→</span></span>
       </div>
     </a>
     <a class="card" href="vet/premium/">
-      <div class="thumb v3">⚜️</div>
+      <div class="thumb">
+        <img src="assets/thumbs/vet-premium.jpg" alt="ВетГоспіталь Prime" width="800" height="500" loading="lazy">
+        <span class="badge">ГОСПІТАЛЬ</span>
+        <span class="city">Київ</span>
+      </div>
       <div class="body">
-        <div class="tag">ГОСПІТАЛЬ · КИЇВ</div>
         <h3>ВетГоспіталь Prime</h3>
-        <p>Преміальний charcoal + мідь. Операційні, лабораторія, стаціонар.</p>
-        <span class="open">Відкрити демо →</span>
+        <div class="chips"><span class="chip">операційні</span><span class="chip">лабораторія</span></div>
+        <p>Charcoal + мідь. Європейські протоколи, стаціонар 24/7.</p>
+        <span class="open">Відкрити демо <span>→</span></span>
       </div>
     </a>
+  </div>
+
+  <div class="cta-band">
+    <div>
+      <h3>Хочете такий самий сайт?</h3>
+      <p>Зроблю макет під вашу клініку за 1 день — безкоштовно, щоб ви побачили результат до оплати.</p>
+    </div>
+    <a class="btn" href="https://t.me/ChestJRC">Написати в Telegram →</a>
   </div>
 </div>
 <footer>
   <p><b>Віталій</b> · сайти + SEO для локального бізнесу в Україні</p>
-  <p style="margin-top:6px">Це демонстраційні макети з вигаданими назвами. Реальний сайт — за 3 дні.</p>
+  <p style="margin-top:6px">Демонстраційні макети з вигаданими назвами. Реальний сайт — за 3 дні.</p>
 </footer>
 </body>
 </html>
