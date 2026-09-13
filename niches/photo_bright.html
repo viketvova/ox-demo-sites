@@ -1,0 +1,239 @@
+    <!DOCTYPE html>
+    <html lang="uk"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Frame Studio — Львів</title>
+    <style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{text-decoration:none;color:inherit}
+.wrap{width:min(1100px,92%);margin:0 auto}
+:root{
+        --bg:#f7fafc;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--card:#fff;
+        --accent:#455a64;--soft:#eceff1;--on-accent:#fff;--hero-ov:linear-gradient(100deg,rgba(10,20,35,.92) 0%,rgba(10,20,35,.55) 50%,rgba(10,20,35,.2) 100%);
+        --panel:#fff;--chip-bg:#eceff1;--chip-fg:#455a64;
+        }
+#hdr{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:.2s}
+#hdr.scrolled{border-bottom-color:var(--line);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:12px}
+.brand{display:flex;gap:12px;align-items:center}
+.brand-m{width:46px;height:46px;border-radius:18px;background:var(--accent);color:var(--on-accent);
+  display:grid;place-items:center;font-size:22px;font-weight:800}
+.brand b{font-size:16px;display:block}.brand span{font-size:12px;color:var(--muted)}
+.menu{display:flex;gap:18px;font-size:14px;font-weight:600;color:var(--muted);align-items:center}
+.menu a:hover{color:var(--accent)}
+.nav-cta{background:var(--accent);color:var(--on-accent);padding:10px 16px;border-radius:18px}
+#burger{display:none;background:none;border:0;font-size:22px;color:var(--ink);cursor:pointer}
+.btn{display:inline-flex;padding:13px 22px;font-weight:700;font-size:14px;border:0;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:var(--accent);color:var(--on-accent);border-radius:14px;box-shadow:0 8px 22px rgba(0,0,0,.15)}
+.btn-g{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:14px}
+.hero{position:relative;min-height:78vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url(../../assets/niche_photo.png) center/cover}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,20,35,.92) 0%,rgba(10,20,35,.55) 50%,rgba(10,20,35,.2) 100%)}
+.hero-in{position:relative;z-index:2;padding:72px 0;display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:center;color:#fff}
+.pill{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.28);padding:7px 14px;border-radius:999px;font-size:12px;margin-bottom:16px;color:inherit}
+.pill i{width:8px;height:8px;border-radius:50%;background:#3dffa0;display:block}
+.soft-hero .pill{background:var(--card);border-color:var(--line);color:var(--accent)}
+.hero h1{font-size:clamp(30px,4vw,46px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin-bottom:14px}
+.hero h1 em{font-style:normal;color:#455a64}
+.hero .lead{font-size:16px;opacity:.9;max-width:500px;margin-bottom:26px}
+.hero-card{background:var(--panel);color:var(--ink);border-radius:18px;padding:24px;
+  border:1px solid var(--line);box-shadow:0 18px 40px rgba(0,0,0,.18)}
+.hero-card h3{font-size:17px;margin-bottom:4px}
+.hero-card .t{font-size:13px;color:var(--muted);margin-bottom:12px}
+.slots{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.slot{background:var(--chip-bg);color:var(--chip-fg);font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px}
+.ph{font-size:20px;font-weight:800;color:var(--accent)}
+.trust{background:var(--card);border-bottom:1px solid var(--line)}
+.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);padding:24px 0}
+.trust div{text-align:center;border-right:1px solid var(--line)}
+.trust div:last-child{border:0}
+.trust b{display:block;font-size:24px;color:var(--accent)}.trust span{font-size:12px;color:var(--muted)}
+section{padding:72px 0}
+.sec-h{margin-bottom:32px}
+.sec-h .kicker{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.14em;margin-bottom:6px}
+.sec-h h2{font-size:30px;letter-spacing:-.02em;margin-bottom:8px}
+.sec-h p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;
+  text-align:left;cursor:pointer;font:inherit;color:inherit;transition:.2s;width:100%}
+.svc:hover,.svc.active{border-color:var(--accent);box-shadow:0 10px 28px rgba(0,0,0,.08);transform:translateY(-2px)}
+.svc-top{display:flex;justify-content:space-between;gap:10px;margin-bottom:6px}
+.svc h3{font-size:15px}.price{color:var(--accent);font-weight:700;font-size:13px}
+.svc p{font-size:13px;color:var(--muted)}
+.hours-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
+.hours{width:100%;border-collapse:collapse;font-size:14px}
+.hours td{padding:10px 2px;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;font-weight:700;color:var(--accent)}
+.hours .off{color:#c0392b}.hours tr.today{background:var(--soft)}
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.doc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;text-align:center}
+.doc-ava{font-size:30px;margin-bottom:8px}
+.doc h3{font-size:14px}.doc .role{font-size:12px;color:var(--muted);margin:4px 0 8px}
+.tag{display:inline-block;background:var(--chip-bg);color:var(--chip-fg);font-size:11px;font-weight:700;
+  padding:4px 10px;border-radius:999px}
+.faq{max-width:740px}
+.faq-item{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:8px}
+.faq-q{width:100%;display:flex;justify-content:space-between;padding:14px 16px;background:none;border:0;
+  font:inherit;font-weight:700;font-size:14px;cursor:pointer;text-align:left;color:var(--ink)}
+.faq-x{color:var(--accent)}
+.faq-a{max-height:0;overflow:hidden;transition:.3s}
+.faq-a p{padding:0 16px 14px;color:var(--muted);font-size:13px}
+.faq-item.open .faq-a{max-height:160px}
+.book{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
+.form label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.form input,.form select,.form textarea{width:100%;padding:11px;border:1px solid var(--line);
+  border-radius:18px;font:inherit;font-size:14px;margin-bottom:10px;background:var(--bg)}
+#form-ok{background:var(--soft);color:var(--accent);padding:12px;border-radius:12px;font-weight:600;font-size:13px;margin-top:8px}
+.float-call{position:fixed;right:20px;bottom:20px;z-index:60;background:var(--accent);color:var(--on-accent);
+  padding:13px 18px;border-radius:18px;font-weight:700;font-size:14px}
+footer.site{border-top:1px solid var(--line);padding:28px 0;text-align:center;color:var(--muted);font-size:13px}
+.reveal{opacity:0;transform:translateY(20px);transition:.6s}.reveal.on{opacity:1;transform:none}
+@media(max-width:900px){
+  .menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg);flex-direction:column;
+    padding:14px;border-bottom:1px solid var(--line)}
+  .menu.open{display:flex}#burger{display:block}
+  .hero-in,.grid,.hours-wrap,.book,.trust .wrap,.team{grid-template-columns:1fr}
+}
+</style></head><body>
+    <header id="hdr"><div class="wrap nav">
+      <a class="brand" href="#"><div class="brand-m">📷</div>
+        <div><b>Frame Studio</b><span>ФОТОГРАФ · Львів</span></div></a>
+      <nav class="menu" id="menu">
+        <a href="#svc">Послуги</a><a href="#hours">Графік</a>
+        <a href="#team">Команда</a><a href="#faq">FAQ</a>
+        <a href="#book" class="nav-cta">Запис</a>
+      </nav>
+      <a class="btn btn-p" href="tel:380638001020">+380 63 800 10 20</a>
+      <button id="burger">☰</button>
+    </div></header>
+
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="wrap hero-in">
+        <div>
+          <div class="pill"><i></i> Студія або локація</div>
+          <h1>Кадри, у яких <em>ви — ви</em></h1>
+          <p class="lead">Сім’я, love story, бізнес-портрет. Без «посміхніться 40 разів підряд».</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <a class="btn btn-p" href="#book">Записатися</a>
+            <a class="btn btn-g" href="#svc">Ціни</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h3>Найближчий час</h3>
+          <div class="t">ФОТОГРАФ · Львів</div>
+          <div class="slots">
+            <span class="slot">сьогодні 16:00</span>
+            <span class="slot">завтра 11:00</span>
+            <span class="slot">завтра 15:30</span>
+          </div>
+          <div class="ph">+380 63 800 10 20</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust"><div class="wrap">
+      <div><b>4.8★</b><span>Google Maps</span></div>
+      <div><b>8+</b><span>років</span></div>
+      <div><b>6</b><span>послуг</span></div>
+      <div><b>15 хв</b><span>відповідь</span></div>
+    </div></div>
+
+    <section id="svc"><div class="wrap">
+      <div class="sec-h reveal"><div class="kicker">ПОСЛУГИ ТА ЦІНИ</div>
+        <h2>Що ми робимо</h2><p>Натисніть картку, щоб побачити деталі</p></div>
+      <div class="grid"><button type="button" class="svc reveal">
+          <div class="svc-top"><h3>Сімейна зйомка</h3><span class="price">від 2 500 ₴</span></div>
+          <p>60–90 хв · студія або локація</p>
+        </button><button type="button" class="svc reveal">
+          <div class="svc-top"><h3>Love story</h3><span class="price">від 3 000 ₴</span></div>
+          <p>2 години · 2 локації</p>
+        </button><button type="button" class="svc reveal">
+          <div class="svc-top"><h3>Бізнес-портрет</h3><span class="price">від 1 800 ₴</span></div>
+          <p>Для сайту / LinkedIn</p>
+        </button><button type="button" class="svc reveal">
+          <div class="svc-top"><h3>Вагітна / Newborn</h3><span class="price">від 3 500 ₴</span></div>
+          <p>М’яке світло, без поспіху</p>
+        </button><button type="button" class="svc reveal">
+          <div class="svc-top"><h3>Предметна зйомка</h3><span class="price">від 1 500 ₴</span></div>
+          <p>Для інтернет-магазину</p>
+        </button><button type="button" class="svc reveal">
+          <div class="svc-top"><h3>Весільний день</h3><span class="price">від 15 000 ₴</span></div>
+          <p>Повний супровід</p>
+        </button></div>
+    </div></section>
+
+    <section id="hours"><div class="wrap hours-wrap">
+      <div class="panel reveal"><h3>🕐 Графік роботи</h3><table class='hours'><tbody><tr><td>Понеділок</td><td class=''>09:00 – 20:00</td></tr><tr><td>Вівторок</td><td class=''>09:00 – 20:00</td></tr><tr><td>Середа</td><td class=''>09:00 – 20:00</td></tr><tr><td>Четвер</td><td class=''>09:00 – 20:00</td></tr><tr><td>П’ятниця</td><td class=''>09:00 – 20:00</td></tr><tr><td>Субота</td><td class=''>10:00 – 17:00</td></tr><tr><td>Неділя</td><td class='off'>Вихідний</td></tr></tbody></table>
+        <p style="margin-top:12px;font-size:13px;color:var(--muted)">Сьогодні підсвічено</p></div>
+      <div class="panel reveal"><h3>📍 Контакти</h3>
+        <p style="margin:10px 0;font-size:15px"><b>+380 63 800 10 20</b></p>
+        <p style="font-size:13px;color:var(--muted)">Львів · запис онлайн або телефоном</p></div>
+    </div></section>
+
+    <section id="team"><div class="wrap">
+      <div class="sec-h reveal"><div class="kicker">КОМАНДА</div><h2>Хто вас прийме</h2></div>
+      <div class="team"><article class="doc reveal"><div class="doc-ava">👤</div>
+        <h3>Андрій</h3><p class="role">Весілля / love story</p><span class="tag">11 р досвіду</span></article><article class="doc reveal"><div class="doc-ava">👤</div>
+        <h3>Катя</h3><p class="role">Сім’я / newborn</p><span class="tag">8 р досвіду</span></article><article class="doc reveal"><div class="doc-ava">👤</div>
+        <h3>Марк</h3><p class="role">Бізнес-портрет</p><span class="tag">7 р досвіду</span></article><article class="doc reveal"><div class="doc-ava">👤</div>
+        <h3>Ліза</h3><p class="role">Предметка</p><span class="tag">5 р досвіду</span></article></div>
+    </div></section>
+
+    <section id="faq"><div class="wrap">
+      <div class="sec-h reveal"><div class="kicker">FAQ</div><h2>Часті питання</h2></div>
+      <div class="faq"><div class="faq-item"><button type="button" class="faq-q"><span>Скільки фото отримаємо?</span><span class="faq-x">+</span></button>
+        <div class="faq-a"><p>Залежить від пакета. Зазвичай 30–80 оброблених.</p></div></div><div class="faq-item"><button type="button" class="faq-q"><span>Коли готові фото?</span><span class="faq-x">+</span></button>
+        <div class="faq-a"><p>5–14 днів. Терміново — за доплату.</p></div></div><div class="faq-item"><button type="button" class="faq-q"><span>Чи допомагаєте з образом?</span><span class="faq-x">+</span></button>
+        <div class="faq-a"><p>Так, можемо порадити стиліста.</p></div></div></div>
+    </div></section>
+
+    <section id="book"><div class="wrap book">
+      <div class="form reveal">
+        <h3>Запис</h3>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Передзвонимо за 15 хвилин</p>
+        <form id="book-form">
+          <label>Ім’я</label><input required placeholder="Ваше ім’я">
+          <label>Телефон</label><input required type="tel" placeholder="+380">
+          <label>Послуга</label>
+          <select><option>Сімейна зйомка</option><option>Love story</option><option>Бізнес-портрет</option><option>Вагітна / Newborn</option></select>
+          <button class="btn btn-p" style="width:100%;justify-content:center" type="submit">Надіслати</button>
+          <div id="form-ok" hidden>✓ Заявку прийнято!</div>
+        </form>
+      </div>
+      <div class="panel reveal">
+        <h3>Frame Studio</h3>
+        <p style="margin:10px 0;font-size:14px;color:var(--muted)">ФОТОГРАФ · Львів<br>
+        <b style="color:var(--ink);font-size:16px">+380 63 800 10 20</b></p>
+        <p style="font-size:13px;color:var(--muted)">Демо-макет. Реальний сайт — за 3 дні.</p>
+      </div>
+    </div></section>
+
+    <a class="float-call" href="tel:380638001020">📞</a>
+    <footer class="site">© 2026 Frame Studio · Львів · демо-макет</footer>
+    <script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.faq-q').forEach(btn=>btn.addEventListener('click',()=>{
+  const item=btn.closest('.faq-item');const open=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(o=>o.classList.remove('open'));
+  if(!open)item.classList.add('open');
+}));
+document.querySelectorAll('.svc').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('active')));
+const b=document.getElementById('burger'),m=document.getElementById('menu');
+if(b)b.addEventListener('click',()=>m.classList.toggle('open'));
+const f=document.getElementById('book-form');
+if(f)f.addEventListener('submit',e=>{e.preventDefault();document.getElementById('form-ok').hidden=false;f.reset()});
+const h=document.getElementById('hdr');
+addEventListener('scroll',()=>h&&h.classList.toggle('scrolled',scrollY>20));
+const days=['Неділя','Понеділок','Вівторок','Середа','Четвер','П’ятниця','Субота'];
+const today=days[new Date().getDay()];
+document.querySelectorAll('.hours tr').forEach(tr=>{if(tr.cells[0]&&tr.cells[0].textContent.trim()===today)tr.classList.add('today')});
+</script>
+    </body></html>
