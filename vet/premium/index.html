@@ -1,0 +1,390 @@
+    <!DOCTYPE html>
+    <html lang="uk"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ВетГоспіталь Prime — Київ</title>
+    <style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.wrap{width:min(1140px,92%);margin:0 auto}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:14px;
+  font-weight:700;font-size:15px;border:none;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.reveal{opacity:0;transform:translateY(24px);transition:.7s ease}
+.reveal.on{opacity:1;transform:none}
+
+:root{--char:#12100e;--coal:#1a1815;--copper:#c47a4a;--amber:#e8a87c;--ink:#f3efe8;
+  --muted:#8a8278;--line:rgba(196,122,74,.25)}
+body{background:var(--char);color:var(--ink)}
+#hdr{position:sticky;top:0;z-index:50;background:rgba(18,16,14,.94);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.brand{display:flex;gap:12px;align-items:center}
+.brand-m{width:46px;height:46px;border-radius:10px;border:1px solid var(--copper);
+  display:grid;place-items:center;font-size:22px;background:linear-gradient(145deg,#2a2420,#12100e)}
+.brand b{font-size:16px;display:block;letter-spacing:.02em}
+.brand span{font-size:10px;color:var(--copper);letter-spacing:.16em;text-transform:uppercase}
+.menu{display:flex;gap:26px;font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.menu a:hover{color:var(--copper)}
+.nav-cta{color:var(--copper);border-bottom:1px solid var(--copper)}
+#burger{display:none;background:none;border:0;color:var(--copper);font-size:22px}
+.hero{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url(../../../assets/vet_hero_premium.png) center/cover}
+.hero-bg::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(100deg,rgba(18,16,14,.95) 0%,rgba(18,16,14,.72) 50%,rgba(18,16,14,.35) 100%)}
+.hero-in{position:relative;z-index:2;padding:80px 0;max-width:720px}
+.kick{color:var(--copper);letter-spacing:.3em;font-size:11px;margin-bottom:16px;text-transform:uppercase}
+.hero h1{font-size:clamp(34px,4.8vw,52px);line-height:1.1;font-weight:300;margin-bottom:18px}
+.hero h1 b{font-weight:700;color:var(--amber)}
+.hero .lead{color:var(--muted);font-size:16px;margin-bottom:30px;max-width:520px}
+.btn-p{background:var(--copper);color:var(--char);letter-spacing:.08em;font-size:13px;text-transform:uppercase}
+.btn-o{border:1px solid var(--muted);color:var(--ink);letter-spacing:.08em;font-size:13px;text-transform:uppercase}
+.marquee{display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--line)}
+.marquee div{padding:26px;text-align:center;border-right:1px solid var(--line)}
+.marquee div:last-child{border:0}
+.marquee b{display:block;color:var(--copper);font-weight:400;font-size:22px}
+.marquee span{font-size:10px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+section{padding:84px 0}
+.sec-h .kicker{color:var(--copper);letter-spacing:.26em;font-size:11px;margin-bottom:10px}
+.sec-h h2{font-size:32px;font-weight:300;margin-bottom:8px}
+.sec-h h2 b{font-weight:700;color:var(--amber)}
+.sec-h p{color:var(--muted);font-size:14px}
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.svc{background:var(--coal);border:0;padding:26px;text-align:left;cursor:pointer;color:inherit;font:inherit;width:100%}
+.svc:hover,.svc.active{background:#221e1a}
+.svc-top{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}
+.svc h3{font-size:15px;font-weight:500}
+.price{color:var(--copper);font-size:13px}
+.svc p{color:var(--muted);font-size:13px}
+.svc-ico{font-size:11px;letter-spacing:.16em;color:var(--copper);margin-bottom:10px;text-transform:uppercase}
+.split{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.photo{aspect-ratio:1;border:1px solid var(--line);background:url(../../../assets/vet_dog_care.png) center/cover}
+.hours{width:100%;border-collapse:collapse;font-size:14px}
+.hours td{padding:11px 2px;border-bottom:1px solid var(--line);color:var(--muted)}
+.hours td:last-child{text-align:right;color:var(--ink)}
+.hours tr.today td{color:var(--amber)}
+.panel{border:1px solid var(--line);padding:26px;background:var(--coal)}
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.doc{background:var(--coal);padding:26px 16px;text-align:center}
+.doc-ava{font-size:34px;margin-bottom:10px}
+.doc h3{font-size:14px;font-weight:500}.doc .role{font-size:12px;color:var(--muted);margin:6px 0}
+.tag{color:var(--copper);font-size:11px;letter-spacing:.12em}
+.revs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rev{border:1px solid var(--line);padding:22px;margin:0;background:var(--coal)}
+.stars{color:var(--copper);font-size:12px;letter-spacing:3px;margin-bottom:10px}
+.rev p{font-size:14px;font-weight:300;line-height:1.6;margin-bottom:12px}
+.rev footer{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.faq{max-width:760px}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;display:flex;justify-content:space-between;padding:16px 0;background:none;border:0;
+  color:var(--ink);font:inherit;font-size:15px;cursor:pointer;text-align:left}
+.faq-x{color:var(--copper)}
+.faq-a{max-height:0;overflow:hidden;transition:.35s}
+.faq-a p{color:var(--muted);font-size:13px;padding-bottom:14px}
+.faq-item.open .faq-a{max-height:180px}
+.book{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.form{border:1px solid var(--copper);padding:30px;background:var(--coal)}
+.form h3{font-weight:400;margin-bottom:6px}
+.hint{color:var(--muted);font-size:13px;margin-bottom:16px}
+.form label{display:block;font-size:11px;letter-spacing:.12em;color:var(--muted);margin-bottom:5px;text-transform:uppercase}
+.form input,.form select,.form textarea{width:100%;padding:12px;background:#111;border:1px solid var(--line);
+  color:var(--ink);font:inherit;margin-bottom:12px}
+#form-ok{color:var(--amber);font-size:13px;margin-top:8px}
+.float-call{position:fixed;right:22px;bottom:22px;z-index:60;background:var(--copper);color:var(--char);
+  padding:14px 20px;font-weight:700;letter-spacing:.08em;font-size:12px;text-transform:uppercase}
+footer.site{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:11px;letter-spacing:.12em}
+footer.site .row{display:flex;justify-content:space-between}
+@media(max-width:900px){
+  .menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--char);flex-direction:column;
+    padding:18px;border-bottom:1px solid var(--line)}
+  .menu.open{display:flex}#burger{display:block}
+  .svc-grid,.split,.revs,.book,.marquee{grid-template-columns:1fr}
+  .team{grid-template-columns:1fr 1fr}
+}
+</style></head><body>
+    <header id="hdr"><div class="wrap nav">
+      <a class="brand" href="#"><div class="brand-m">⚜️</div>
+        <div><b>ВетГоспіталь Prime</b><span>Veterinary Hospital · Київ</span></div></a>
+      <nav class="menu" id="menu">
+        <a href="#svc">Послуги</a><a href="#about">Стандарт</a>
+        <a href="#hours">Графік</a><a href="#team">Лікарі</a>
+        <a href="#faq">FAQ</a><a class="nav-cta" href="#book">Запис</a>
+      </nav>
+      <a class="btn btn-p" href="tel:+380674445566">Консультація</a>
+      <button id="burger">☰</button>
+    </div></header>
+
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="wrap hero-in">
+        <div class="kick">Преміальна ветеринарна допомога</div>
+        <h1>Клініка, де <b>кожне життя</b><br>на першому місці</h1>
+        <p class="lead">ВетГоспіталь Prime у Києві. Європейські протоколи,
+        власна лабораторія, операційна та стаціонар 24/7.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn btn-p" href="#book">Запис на прийом</a>
+          <a class="btn btn-o" href="#svc">Клінічні напрямки</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee">
+      <div><b>15+</b><span>років практики</span></div>
+      <div><b>24/7</b><span>стаціонар</span></div>
+      <div><b>4.9</b><span>Google Maps</span></div>
+      <div><b>2</b><span>операційні</span></div>
+    </div>
+
+    <section id="svc"><div class="wrap">
+      <div class="sec-h"><div class="kicker">Напрямки</div>
+        <h2>Клінічні <b>послуги</b></h2>
+        <p>Повний цикл допомоги собакам, котам і екзотичним тваринам</p></div>
+      <div class="svc-grid">
+        <button type="button" class="svc" data-i="0">
+          <div class="svc-ico">🩺</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Прийом терапевта</h3><span class="price">від 450 ₴</span></div>
+            <p>Огляд, діагностика, план лікування. 30–40 хв.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="1">
+          <div class="svc-ico">💉</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Вакцинація</h3><span class="price">від 550 ₴</span></div>
+            <p>Комплексні вакцини Nobivac / Eurican. Паспорт ЄС.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="2">
+          <div class="svc-ico">📡</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>УЗД та діагностика</h3><span class="price">від 700 ₴</span></div>
+            <p>Апарат Mindray. Результат і висновок на візиті.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="3">
+          <div class="svc-ico">⚕️</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Хірургія</h3><span class="price">від 3 500 ₴</span></div>
+            <p>Стерилізація, м’які тканини. Моніторинг під час операції.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="4">
+          <div class="svc-ico">🦷</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Стоматологія тварин</h3><span class="price">від 1 800 ₴</span></div>
+            <p>УЗ-чистка, видалення зубів під седацією.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="5">
+          <div class="svc-ico">🚗</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Виклик лікаря додому</h3><span class="price">від 900 ₴</span></div>
+            <p>Київ і передмістя. Коли важко везти тварину.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="6">
+          <div class="svc-ico">📋</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Чіпування та документи</h3><span class="price">від 600 ₴</span></div>
+            <p>Мікрочіп, паспорт, довідка для подорожей ЄС.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="7">
+          <div class="svc-ico">🏥</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Стаціонар</h3><span class="price">від 800 ₴ / доба</span></div>
+            <p>Цілодобове спостереження після операцій.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button></div>
+    </div></section>
+
+    <section id="about" style="border-block:1px solid var(--line)"><div class="wrap split">
+      <div class="reveal">
+        <div class="kick" style="color:var(--copper);font-size:11px;letter-spacing:.26em">Стандарт</div>
+        <h2 style="font-size:30px;font-weight:300;margin:10px 0 14px">Не «прийом на потоці».<br>Повний клінічний протокол.</h2>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:18px">
+          Кожен пацієнт — з історією хвороби, фотофіксацією та зв’язком із лікарем після виписки.</p>
+        <ul style="list-style:none;display:grid;gap:10px;font-size:14px;color:var(--muted)">
+          <li style="border-left:2px solid var(--copper);padding-left:14px">Власна лабораторія — аналізи за 1 годину</li>
+          <li style="border-left:2px solid var(--copper);padding-left:14px">Моніторинг життєвих функцій під час операції</li>
+          <li style="border-left:2px solid var(--copper);padding-left:14px">Прозорий кошторис до початку лікування</li>
+        </ul>
+      </div>
+      <div class="photo reveal" role="img" aria-label="Прийом"></div>
+    </div></section>
+
+    <section id="hours"><div class="wrap split">
+      <div class="reveal">
+        <div class="kick" style="color:var(--copper);font-size:11px;letter-spacing:.26em">Графік</div>
+        <h2 style="font-size:28px;font-weight:300;margin:10px 0 18px">Коли ми приймаємо</h2>
+        <table class='hours'><tbody><tr><td>Понеділок</td><td class=''>08:00 – 21:00</td></tr><tr><td>Вівторок</td><td class=''>08:00 – 21:00</td></tr><tr><td>Середа</td><td class=''>08:00 – 21:00</td></tr><tr><td>Четвер</td><td class=''>08:00 – 21:00</td></tr><tr><td>П’ятниця</td><td class=''>08:00 – 21:00</td></tr><tr><td>Субота</td><td class=''>09:00 – 18:00</td></tr><tr><td>Неділя</td><td class=''>10:00 – 16:00</td></tr></tbody></table>
+        <p style="margin-top:14px;color:var(--muted);font-size:13px">
+          Стаціонар і екстрена допомога — 24/7, поза графіком.</p>
+      </div>
+      <div class="panel reveal">
+        <h3 style="font-weight:400;margin-bottom:12px">Адреса</h3>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">
+          вул. Антоновича, 102<br>Київ<br><br>
+          <span style="color:var(--amber)">+380 67 444 55 66</span><br>
+          @vetprime.kyiv</p>
+      </div>
+    </div></section>
+
+    <section id="team" style="background:#0f0e0c"><div class="wrap">
+      <div class="sec-h"><div class="kicker">Команда</div>
+        <h2>Лікарі <b>госпіталю</b></h2></div>
+      <div class="team">
+        <article class="doc reveal">
+          <div class="doc-ava">👨‍⚕️</div>
+          <h3>Олексій Гринь</h3>
+          <p class="role">Головний лікар · терапевт</p>
+          <span class="tag">14 років досвіду</span>
+        </article>
+        <article class="doc reveal">
+          <div class="doc-ava">👩‍⚕️</div>
+          <h3>Марія Лисенко</h3>
+          <p class="role">Хірург</p>
+          <span class="tag">10 років досвіду</span>
+        </article>
+        <article class="doc reveal">
+          <div class="doc-ava">🧑‍⚕️</div>
+          <h3>Ігор Савченко</h3>
+          <p class="role">УЗ-діагностика</p>
+          <span class="tag">8 років досвіду</span>
+        </article>
+        <article class="doc reveal">
+          <div class="doc-ava">👩‍⚕️</div>
+          <h3>Анна Коваль</h3>
+          <p class="role">Анестезіолог</p>
+          <span class="tag">9 років досвіду</span>
+        </article></div>
+    </div></section>
+
+    <section><div class="wrap">
+      <div class="sec-h"><div class="kicker">Відгуки</div><h2>Слова власників</h2></div>
+      <div class="revs">
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Привезли кота о 23:00 — прийняли, зробили УЗД, залишили в стаціонарі. Вранці вже їв. Дякую, що не відмовили.»</p>
+          <footer><b>Дмитро</b><span>Google</span></footer>
+        </blockquote>
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Стерилізація собаки. Пояснили все, показали післяопераційні фото. Ціна як у кошторисі — без доплат.»</p>
+          <footer><b>Олена</b><span>Google</span></footer>
+        </blockquote></div>
+    </div></section>
+
+    <section id="faq" style="border-top:1px solid var(--line)"><div class="wrap">
+      <div class="sec-h"><div class="kicker">FAQ</div><h2>Питання</h2></div>
+      <div class="faq">
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Чи приймаєте у вихідні?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Так. Сб 09–18, Нд 10–16. У неділю — черговий лікар для термінових випадків.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Скільки коштує перший огляд?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Консультація терапевта — від 450 ₴. Якщо робите процедури того ж дня — огляд входить у вартість.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Чи можна залишити тварину на ніч?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Так, є стаціонар з цілодобовим наглядом. Повідомляємо стан у Viber щоранку.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Як підготувати тварину до УЗД?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Голод 8–10 годин, вода — за бажанням. Дрібним гризунам — інші правила, підкажемо телефоном.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Чи робите виїзд у передмістя?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Так, до 15 км від клініки. Далі — за домовленістю, уточнюйте у адміністратора.</p></div>
+        </div></div>
+    </div></section>
+
+    <section id="book"><div class="wrap book">
+      <div class="form reveal">
+        <h3>Запис / терміновий випадок</h3>
+        <p class="hint">Адміністратор передзвонить протягом 10 хвилин</p>
+        <form id="book-form">
+          <label>Ім’я</label><input required placeholder="Ваше ім’я">
+          <label>Телефон</label><input required type="tel" placeholder="+380">
+          <label>Пацієнт</label>
+          <select><option>Собака</option><option>Кіт</option><option>Екзотика</option></select>
+          <label>Тип звернення</label>
+          <select><option>Плановий прийом</option><option>Терміново</option>
+            <option>Операція</option><option>Стаціонар</option></select>
+          <button class="btn btn-p" style="width:100%;justify-content:center" type="submit">Надіслати</button>
+          <div id="form-ok" hidden>✓ Прийнято. Передзвонимо.</div>
+        </form>
+      </div>
+      <div class="reveal">
+        <p style="color:var(--muted);font-size:14px;margin-bottom:16px">
+          Для екстрених випадків телефонуйте — не чекайте відповіді форми.</p>
+        <div style="border:1px solid var(--line);padding:24px;background:var(--coal)">
+          <div style="color:var(--copper);font-size:11px;letter-spacing:.2em;margin-bottom:10px">Контакт</div>
+          <div style="font-size:22px;margin-bottom:8px">+380 67 444 55 66</div>
+          <div style="color:var(--muted);font-size:13px">Цілодобово · стаціонар 24/7</div>
+        </div>
+      </div>
+    </div></section>
+
+    <a class="float-call" href="tel:+380674445566">Дзвінок</a>
+    <footer class="site"><div class="wrap row">
+      <span>ВетГоспіталь Prime · Київ</span><span>Демо-макет</span>
+    </div></footer>
+    <script>
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) e.target.classList.add('on');
+}), {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => o.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(b => b.setAttribute('aria-expanded','false'));
+    if (!open) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+  });
+});
+document.querySelectorAll('.svc').forEach(card => {
+  card.addEventListener('click', () => card.classList.toggle('active'));
+});
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+if (burger) burger.addEventListener('click', () => menu.classList.toggle('open'));
+const form = document.getElementById('book-form');
+if (form) form.addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('form-ok').hidden = false;
+  form.reset();
+});
+const hdr = document.getElementById('hdr');
+window.addEventListener('scroll', () => {
+  hdr.classList.toggle('scrolled', window.scrollY > 20);
+});
+const days = ['Неділя','Понеділок','Вівторок','Середа','Четвер','П’ятниця','Субота'];
+const today = days[new Date().getDay()];
+document.querySelectorAll('.hours tr').forEach(tr => {
+  if (tr.cells[0] && tr.cells[0].textContent.trim() === today) tr.classList.add('today');
+});
+</script>
+    </body></html>

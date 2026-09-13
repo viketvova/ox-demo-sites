@@ -1,0 +1,422 @@
+    <!DOCTYPE html>
+    <html lang="uk"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ЗооДім Зелений — Львів</title>
+    <style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.wrap{width:min(1140px,92%);margin:0 auto}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:14px;
+  font-weight:700;font-size:15px;border:none;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.reveal{opacity:0;transform:translateY(24px);transition:.7s ease}
+.reveal.on{opacity:1;transform:none}
+
+:root{--forest:#1b4332;--leaf:#2d6a4f;--sage:#95d5b2;--mist:#d8f3dc;--cream:#f7faf5;
+  --ink:#1b4332;--muted:#52796f;--line:#c7e0d0;--ok:#2d8a5e}
+body{background:var(--cream);color:var(--ink)}
+#hdr{position:sticky;top:0;z-index:50;background:rgba(247,250,245,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{display:flex;gap:12px;align-items:center}
+.brand-m{width:48px;height:48px;border-radius:50%;background:var(--leaf);color:#fff;
+  display:grid;place-items:center;font-size:22px}
+.brand b{font-size:17px;display:block}.brand span{font-size:12px;color:var(--muted)}
+.menu{display:flex;gap:20px;align-items:center;font-size:14px;font-weight:600;color:var(--muted)}
+.menu a:hover{color:var(--forest)}
+.nav-cta{background:var(--forest);color:#fff;padding:11px 18px;border-radius:12px}
+#burger{display:none;background:none;border:0;font-size:24px}
+.hero{position:relative;min-height:82vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url(../../../assets/vet_hero_forest.png) center/cover}
+.hero-bg::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(100deg,rgba(15,40,28,.94) 0%,rgba(15,40,28,.7) 50%,rgba(15,40,28,.25) 100%)}
+.hero-in{position:relative;z-index:2;padding:80px 0;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;color:#fff}
+.badge{display:inline-block;background:rgba(149,213,178,.18);border:1px solid rgba(149,213,178,.4);
+  color:var(--sage);font-size:12px;font-weight:700;letter-spacing:.08em;padding:7px 14px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(32px,4.2vw,48px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--sage)}
+.hero .lead{font-size:16px;opacity:.88;max-width:500px;margin-bottom:28px}
+.btn-p{background:var(--sage);color:var(--forest);border-radius:12px;font-weight:800}
+.btn-o{background:transparent;color:#fff;border:1.5px solid rgba(149,213,178,.55);border-radius:12px}
+.float{background:rgba(255,255,255,.97);color:var(--ink);border-radius:22px;padding:24px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.4)}
+.float h4{font-size:17px;margin-bottom:4px}
+.float .t{font-size:13px;color:var(--muted);margin-bottom:12px}
+.tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tag{background:var(--mist);color:var(--forest);font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px}
+.ph{font-size:20px;font-weight:800;color:var(--forest)}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);background:var(--forest);color:#fff}
+.strip div{padding:22px 16px;text-align:center;border-right:1px solid rgba(255,255,255,.12)}
+.strip div:last-child{border:0}
+.strip b{display:block;font-size:24px;color:var(--sage)}
+.strip span{font-size:12px;opacity:.75}
+section{padding:72px 0}
+.sec-h{text-align:center;margin-bottom:36px}
+.sec-h h2{font-size:32px;margin-bottom:8px}.sec-h p{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.svc{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;cursor:pointer;
+  transition:.22s;font:inherit;color:inherit;text-align:left;width:100%}
+.svc:hover,.svc.active{border-color:var(--leaf);box-shadow:0 12px 28px rgba(27,67,50,.1);transform:translateY(-2px)}
+.svc-ico{font-size:26px;margin-bottom:10px}
+.svc-top{display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}
+.svc h3{font-size:15px}.price{color:var(--leaf);font-weight:700;font-size:12px}
+.svc p{font-size:12.5px;color:var(--muted)}
+.svc .more{font-size:12px;font-weight:700;color:var(--leaf);opacity:0}
+.svc:hover .more,.svc.active .more{opacity:1}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.photo{aspect-ratio:4/3;border-radius:24px;background:url(../../../assets/vet_cat.png) center/cover;
+  box-shadow:0 16px 40px rgba(27,67,50,.15)}
+.feat{list-style:none;display:grid;gap:10px;margin-top:16px}
+.feat li{padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:12px;font-size:14px}
+.hours-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px}
+.hours{width:100%;border-collapse:collapse;font-size:14px}
+.hours td{padding:10px 2px;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;font-weight:700;color:var(--forest)}
+.hours .off{color:#c0392b}
+.hours tr.today{background:var(--mist)}
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.doc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;text-align:center}
+.doc-ava{font-size:32px;margin-bottom:8px}
+.doc h3{font-size:14px}.doc .role{font-size:12px;color:var(--muted);margin:4px 0 8px}
+.tag2{display:inline-block;background:var(--mist);color:var(--forest);font-size:11px;font-weight:700;
+  padding:4px 10px;border-radius:999px}
+.revs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rev{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin:0}
+.stars{color:#f5a623;font-size:12px;letter-spacing:2px;margin-bottom:8px}
+.rev p{font-size:14px;margin-bottom:10px}
+.rev footer{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.faq{max-width:740px;margin:0 auto}
+.faq-item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:10px}
+.faq-q{width:100%;display:flex;justify-content:space-between;padding:15px 16px;background:none;border:0;
+  font:inherit;font-weight:700;font-size:14px;cursor:pointer;text-align:left;color:var(--ink)}
+.faq-x{width:26px;height:26px;border-radius:50%;background:var(--mist);color:var(--forest);display:grid;place-items:center}
+.faq-a{max-height:0;overflow:hidden;transition:.3s}
+.faq-a p{padding:0 16px 14px;color:var(--muted);font-size:13px}
+.faq-item.open .faq-a{max-height:180px}
+.cta{margin:28px auto 0;max-width:900px;background:var(--mist);border-radius:24px;padding:32px;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.cta h3{font-size:22px;margin-bottom:4px}.cta p{color:var(--muted);font-size:14px}
+.book{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px}
+.form label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.form input,.form select,.form textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;
+  font:inherit;font-size:14px;margin-bottom:12px;background:#fafcf8}
+#form-ok{background:#e8f5e9;color:var(--ok);padding:12px;border-radius:12px;font-size:14px;font-weight:600;margin-top:8px}
+.float-call{position:fixed;right:20px;bottom:20px;z-index:60;background:var(--forest);color:#fff;
+  padding:14px 18px;border-radius:12px;font-weight:700}
+footer.site{background:var(--forest);color:#c5e0cf;padding:24px 0;font-size:13px;text-align:center}
+@media(max-width:900px){
+  .menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--cream);flex-direction:column;
+    padding:16px;border-bottom:1px solid var(--line)}
+  .menu.open{display:flex}#burger{display:block}
+  .hero-in,.split,.hours-wrap,.book,.cards,.revs,.strip{grid-template-columns:1fr}
+  .team{grid-template-columns:1fr 1fr}
+}
+</style></head><body>
+    <header id="hdr"><div class="wrap nav">
+      <a class="brand" href="#"><div class="brand-m">🌿</div>
+        <div><b>ЗооДім Зелений</b><span>Ветклініка · Львів</span></div></a>
+      <nav class="menu" id="menu">
+        <a href="#svc">Послуги</a><a href="#about">Підхід</a>
+        <a href="#hours">Графік</a><a href="#team">Команда</a>
+        <a href="#faq">Питання</a><a href="#book" class="nav-cta">Запис</a>
+      </nav>
+      <a class="btn btn-p" href="tel:+380637778899">+380 63 777 88 99</a>
+      <button id="burger">☰</button>
+    </div></header>
+
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="wrap hero-in">
+        <div>
+          <div class="badge">СПОКІЙ · ГІГІЄНА · ДОСВІД</div>
+          <h1>Здоров’я улюбленців<br><em>без стресу й поспіху</em></h1>
+          <p class="lead">ЗооДім Зелений — затишна клініка у Львові.
+          М’які протоколи, окремі зони для котів, прозорий кошторис.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a class="btn btn-p" href="#book">Записатися онлайн</a>
+            <a class="btn btn-o" href="#hours">Графік роботи</a>
+          </div>
+        </div>
+        <div class="float">
+          <h4>🟢 Вільні слоти сьогодні</h4>
+          <div class="t">Терапевт · вакцинація · УЗД</div>
+          <div class="tagrow">
+            <span class="tag">11:00</span><span class="tag">14:30</span><span class="tag">18:00</span>
+          </div>
+          <div class="ph">+380 63 777 88 99</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div><b>4.9★</b><span>Google Maps</span></div>
+      <div><b>10+</b><span>років</span></div>
+      <div><b>6</b><span>лікарів</span></div>
+      <div><b>8–21</b><span>графік</span></div>
+    </div>
+
+    <section id="svc"><div class="wrap">
+      <div class="sec-h"><h2>Послуги клініки</h2>
+        <p>Від планового огляду до складної діагностики · натисніть картку</p></div>
+      <div class="cards">
+        <button type="button" class="svc" data-i="0">
+          <div class="svc-ico">🩺</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Прийом терапевта</h3><span class="price">від 450 ₴</span></div>
+            <p>Огляд, діагностика, план лікування. 30–40 хв.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="1">
+          <div class="svc-ico">💉</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Вакцинація</h3><span class="price">від 550 ₴</span></div>
+            <p>Комплексні вакцини Nobivac / Eurican. Паспорт ЄС.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="2">
+          <div class="svc-ico">📡</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>УЗД та діагностика</h3><span class="price">від 700 ₴</span></div>
+            <p>Апарат Mindray. Результат і висновок на візиті.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="3">
+          <div class="svc-ico">⚕️</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Хірургія</h3><span class="price">від 3 500 ₴</span></div>
+            <p>Стерилізація, м’які тканини. Моніторинг під час операції.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="4">
+          <div class="svc-ico">🦷</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Стоматологія тварин</h3><span class="price">від 1 800 ₴</span></div>
+            <p>УЗ-чистка, видалення зубів під седацією.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="5">
+          <div class="svc-ico">🚗</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Виклик лікаря додому</h3><span class="price">від 900 ₴</span></div>
+            <p>Київ і передмістя. Коли важко везти тварину.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="6">
+          <div class="svc-ico">📋</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Чіпування та документи</h3><span class="price">від 600 ₴</span></div>
+            <p>Мікрочіп, паспорт, довідка для подорожей ЄС.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="7">
+          <div class="svc-ico">🏥</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Стаціонар</h3><span class="price">від 800 ₴ / доба</span></div>
+            <p>Цілодобове спостереження після операцій.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button></div>
+      <div class="cta reveal">
+        <div><h3>Потрібен терміновий прийом?</h3>
+          <p>Телефонуйте — тримаємо 2 «гарячі» слоти щодня</p></div>
+        <a class="btn btn-p" href="tel:+380637778899">+380 63 777 88 99</a>
+      </div>
+    </div></section>
+
+    <section id="about" style="background:#eef6f0"><div class="wrap split">
+      <div class="photo reveal" role="img" aria-label="Кіт у клініці"></div>
+      <div class="reveal">
+        <div style="color:var(--leaf);font-weight:700;font-size:12px;letter-spacing:.16em">НАШ ПІДХІД</div>
+        <h2 style="font-size:30px;margin:8px 0 12px">Мінімум шуму — максимум турботи</h2>
+        <p style="color:var(--muted);font-size:14px">Коти й собаки чекають у різних зонах.
+        Не тягнемо тварину «на силу» — даємо час освоїтись.</p>
+        <ul class="feat">
+          <li>🌿 <b>Fear Free</b> — повільний підхід, ласощі, без крику</li>
+          <li>🌿 <b>Окремі бокси</b> для котів і собак</li>
+          <li>🌿 <b>Кошторис до процедур</b></li>
+          <li>🌿 <b>Фотозвіт</b> після операцій у Viber</li>
+        </ul>
+      </div>
+    </div></section>
+
+    <section id="hours"><div class="wrap hours-wrap">
+      <div class="panel reveal">
+        <h3>🕐 Графік роботи</h3>
+        <table class='hours'><tbody><tr><td>Понеділок</td><td class=''>08:00 – 21:00</td></tr><tr><td>Вівторок</td><td class=''>08:00 – 21:00</td></tr><tr><td>Середа</td><td class=''>08:00 – 21:00</td></tr><tr><td>Четвер</td><td class=''>08:00 – 21:00</td></tr><tr><td>П’ятниця</td><td class=''>08:00 – 21:00</td></tr><tr><td>Субота</td><td class=''>09:00 – 18:00</td></tr><tr><td>Неділя</td><td class=''>10:00 – 16:00</td></tr></tbody></table>
+        <p style="margin-top:12px;font-size:13px;color:var(--muted)">Сьогодні підсвічено</p>
+      </div>
+      <div class="panel reveal">
+        <h3>📍 Адреса</h3>
+        <p style="font-size:14px;margin:10px 0;color:var(--muted)">
+          вул. Зелена, 120<br>Львів</p>
+        <p style="font-size:13px;color:var(--muted)">Парковка біля входу · зупинка «Зелена»</p>
+        <p style="margin-top:14px;font-weight:800;color:var(--forest)">+380 63 777 88 99</p>
+      </div>
+    </div></section>
+
+    <section id="team" style="background:#eef6f0"><div class="wrap">
+      <div class="sec-h"><h2>Команда</h2></div>
+      <div class="team">
+        <article class="doc reveal">
+          <div class="doc-ava">👨‍⚕️</div>
+          <h3>Олексій Гринь</h3>
+          <p class="role">Головний лікар · терапевт</p>
+          <span class="tag">14 років досвіду</span>
+        </article>
+        <article class="doc reveal">
+          <div class="doc-ava">👩‍⚕️</div>
+          <h3>Марія Лисенко</h3>
+          <p class="role">Хірург</p>
+          <span class="tag">10 років досвіду</span>
+        </article>
+        <article class="doc reveal">
+          <div class="doc-ava">🧑‍⚕️</div>
+          <h3>Ігор Савченко</h3>
+          <p class="role">УЗ-діагностика</p>
+          <span class="tag">8 років досвіду</span>
+        </article>
+        <article class="doc reveal">
+          <div class="doc-ava">👩‍⚕️</div>
+          <h3>Анна Коваль</h3>
+          <p class="role">Анестезіолог</p>
+          <span class="tag">9 років досвіду</span>
+        </article></div>
+    </div></section>
+
+    <section><div class="wrap">
+      <div class="sec-h"><h2>Відгуки</h2></div>
+      <div class="revs">
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Привезли кота о 23:00 — прийняли, зробили УЗД, залишили в стаціонарі. Вранці вже їв. Дякую, що не відмовили.»</p>
+          <footer><b>Дмитро</b><span>Google</span></footer>
+        </blockquote>
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Стерилізація собаки. Пояснили все, показали післяопераційні фото. Ціна як у кошторисі — без доплат.»</p>
+          <footer><b>Олена</b><span>Google</span></footer>
+        </blockquote>
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Викликали додому, бо кішка боїться переноски. Лікар приїхав за годину, все акуратно.»</p>
+          <footer><b>Світлана</b><span>Instagram</span></footer>
+        </blockquote>
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Чіп і паспорт ЄС зробили за один візит. Роз’яснили правила в’їзду.»</p>
+          <footer><b>Андрій</b><span>Google</span></footer>
+        </blockquote></div>
+    </div></section>
+
+    <section id="faq" style="background:#eef6f0"><div class="wrap">
+      <div class="sec-h"><h2>Часті питання</h2></div>
+      <div class="faq">
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Чи приймаєте у вихідні?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Так. Сб 09–18, Нд 10–16. У неділю — черговий лікар для термінових випадків.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Скільки коштує перший огляд?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Консультація терапевта — від 450 ₴. Якщо робите процедури того ж дня — огляд входить у вартість.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Чи можна залишити тварину на ніч?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Так, є стаціонар з цілодобовим наглядом. Повідомляємо стан у Viber щоранку.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Як підготувати тварину до УЗД?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Голод 8–10 годин, вода — за бажанням. Дрібним гризунам — інші правила, підкажемо телефоном.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Чи робите виїзд у передмістя?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Так, до 15 км від клініки. Далі — за домовленістю, уточнюйте у адміністратора.</p></div>
+        </div></div>
+    </div></section>
+
+    <section id="book"><div class="wrap book">
+      <div class="form reveal">
+        <h3>Запис на прийом</h3>
+        <p class="hint">Передзвонимо за 15 хвилин</p>
+        <form id="book-form">
+          <label>Ім’я</label><input required placeholder="Ваше ім’я">
+          <label>Телефон</label><input required type="tel" placeholder="+380">
+          <label>Тварина</label>
+          <select><option>Собака</option><option>Кіт</option><option>Інше</option></select>
+          <label>Послуга</label>
+          <select><option>Терапевт</option><option>Вакцинація</option>
+            <option>УЗД</option><option>Хірургія</option></select>
+          <button class="btn btn-p" style="width:100%;justify-content:center" type="submit">Записатися</button>
+          <div id="form-ok" hidden>✓ Дякуємо! Чекайте дзвінка.</div>
+        </form>
+      </div>
+      <div class="panel reveal">
+        <h3>Контакти</h3>
+        <p style="margin:10px 0;font-size:15px"><b>+380 63 777 88 99</b></p>
+        <p style="font-size:13px;color:var(--muted)">
+          вул. Зелена, 120, Львів<br>
+          Пн–Пт 8–21 · Сб 9–18 · Нд 10–16<br>
+          @zoodim.lviv</p>
+      </div>
+    </div></section>
+
+    <a class="float-call" href="tel:+380637778899">📞 Дзвінок</a>
+    <footer class="site">© 2026 ЗооДім Зелений · Львів · демо-макет</footer>
+    <script>
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) e.target.classList.add('on');
+}), {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => o.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(b => b.setAttribute('aria-expanded','false'));
+    if (!open) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+  });
+});
+document.querySelectorAll('.svc').forEach(card => {
+  card.addEventListener('click', () => card.classList.toggle('active'));
+});
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+if (burger) burger.addEventListener('click', () => menu.classList.toggle('open'));
+const form = document.getElementById('book-form');
+if (form) form.addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('form-ok').hidden = false;
+  form.reset();
+});
+const hdr = document.getElementById('hdr');
+window.addEventListener('scroll', () => {
+  hdr.classList.toggle('scrolled', window.scrollY > 20);
+});
+const days = ['Неділя','Понеділок','Вівторок','Середа','Четвер','П’ятниця','Субота'];
+const today = days[new Date().getDay()];
+document.querySelectorAll('.hours tr').forEach(tr => {
+  if (tr.cells[0] && tr.cells[0].textContent.trim() === today) tr.classList.add('today');
+});
+</script>
+    </body></html>

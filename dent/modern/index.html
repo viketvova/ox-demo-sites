@@ -1,0 +1,475 @@
+    <!DOCTYPE html>
+    <html lang="uk"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>DentaLine — стоматологія Одеса</title>
+    <style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.wrap{width:min(1140px,92%);margin:0 auto}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:12px;
+  font-weight:700;font-size:15px;border:none;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.reveal{opacity:0;transform:translateY(24px);transition:.7s ease}
+.reveal.on{opacity:1;transform:none}
+
+:root{--navy:#0b3c5d;--blue:#1a7fb8;--sky:#e8f4fb;--ink:#1b2a38;--muted:#5b7388;
+  --line:#d9e6ef;--card:#fff;--ok:#1f9d6a;--accent:#00a8cc;--bg:#f7fbfd}
+body{background:var(--bg);color:var(--ink)}
+#hdr{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid transparent;transition:.25s}
+#hdr.scrolled{border-bottom-color:var(--line);box-shadow:0 8px 24px rgba(11,60,93,.06)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{display:flex;gap:12px;align-items:center}
+.brand-m{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--navy),var(--blue));
+  color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px}
+.brand b{font-size:17px;display:block}.brand span{font-size:12px;color:var(--muted)}
+.menu{display:flex;gap:22px;align-items:center;font-size:14px;font-weight:600;color:var(--muted)}
+.menu a:hover{color:var(--navy)}
+.nav-cta{background:var(--navy);color:#fff;padding:11px 18px;border-radius:10px}
+#burger{display:none;background:none;border:0;font-size:24px;cursor:pointer}
+.hero{position:relative;min-height:78vh;display:flex;align-items:center;overflow:hidden;color:#fff}
+.hero-bg{position:absolute;inset:0;background:url(../../../assets/dent_hero_clinic.png) center/cover;
+  transform:scale(1.04)}
+.hero-bg::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,rgba(8,38,58,.88) 0%,rgba(8,38,58,.55) 48%,rgba(8,38,58,.25) 100%)}
+.hero-in{position:relative;z-index:2;padding:80px 0;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.pill{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);padding:8px 14px;border-radius:999px;font-size:13px;margin-bottom:18px}
+.pill i{width:8px;height:8px;border-radius:50%;background:#3dffa0;display:block}
+.hero h1{font-size:clamp(32px,4.5vw,52px);line-height:1.1;letter-spacing:-.03em;font-weight:800;margin-bottom:16px}
+.hero h1 em{font-style:normal;color:#7dd3fc}
+.hero .lead{font-size:17px;opacity:.88;max-width:520px;margin-bottom:28px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-p{background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;
+  box-shadow:0 10px 28px rgba(26,127,184,.4)}
+.btn-g{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35)}
+.hero-card{background:rgba(255,255,255,.96);color:var(--ink);border-radius:22px;padding:26px;
+  box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.hero-card h3{font-size:18px;margin-bottom:4px}
+.hero-card .t{font-size:13px;color:var(--muted);margin-bottom:14px}
+.slots{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.slot{background:var(--sky);color:var(--navy);font-size:12px;font-weight:700;padding:7px 12px;border-radius:999px}
+.hero-card .ph{font-size:22px;font-weight:800;color:var(--navy)}
+.trust{background:#fff;border-bottom:1px solid var(--line)}
+.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);padding:28px 0}
+.trust div{text-align:center;border-right:1px solid var(--line)}
+.trust div:last-child{border:0}
+.trust b{display:block;font-size:26px;color:var(--navy)}
+.trust span{font-size:12px;color:var(--muted)}
+section{padding:80px 0}
+.sec-h{max-width:640px;margin-bottom:40px}
+.sec-h .kicker{color:var(--blue);font-weight:700;font-size:12px;letter-spacing:.16em;margin-bottom:8px}
+.sec-h h2{font-size:34px;letter-spacing:-.02em;margin-bottom:10px}
+.sec-h p{color:var(--muted)}
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.svc{display:flex;gap:16px;text-align:left;background:#fff;border:1px solid var(--line);
+  border-radius:18px;padding:20px;cursor:pointer;transition:.22s;font:inherit;color:inherit;width:100%}
+.svc:hover,.svc.active{border-color:var(--blue);box-shadow:0 12px 32px rgba(26,127,184,.12);transform:translateY(-2px)}
+.svc-ico{width:52px;height:52px;border-radius:14px;background:var(--sky);display:grid;place-items:center;font-size:24px;flex-shrink:0}
+.svc-top{display:flex;justify-content:space-between;gap:10px;align-items:start;margin-bottom:4px}
+.svc h3{font-size:16px}
+.price{color:var(--blue);font-weight:700;font-size:13px;white-space:nowrap}
+.svc p{font-size:13px;color:var(--muted);margin-bottom:6px}
+.svc .more{font-size:12px;font-weight:700;color:var(--blue);opacity:0;transition:.2s}
+.svc.active .more,.svc:hover .more{opacity:1}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.about-img{border-radius:24px;overflow:hidden;box-shadow:0 20px 50px rgba(11,60,93,.15);
+  aspect-ratio:4/3;background:url(../../../assets/dent_smile.png) center/cover}
+.feat{display:grid;gap:12px;margin-top:20px}
+.feat li{list-style:none;display:flex;gap:10px;font-size:14px;padding:12px 14px;background:#fff;
+  border:1px solid var(--line);border-radius:12px}
+.feat li b{color:var(--navy)}
+.hours-wrap{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px}
+.panel h3{margin-bottom:14px;font-size:18px}
+.hours{width:100%;border-collapse:collapse;font-size:14px}
+.hours td{padding:10px 4px;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;font-weight:600;color:var(--navy)}
+.hours .off{color:#c0392b;font-weight:600}
+.hours tr.today{background:var(--sky)}
+.hours tr.today td{color:var(--navy);font-weight:700}
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.doc{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;text-align:center}
+.doc-ava{width:72px;height:72px;margin:0 auto 12px;border-radius:50%;background:var(--sky);
+  display:grid;place-items:center;font-size:34px}
+.doc h3{font-size:15px}.doc .role{font-size:12px;color:var(--muted);margin:4px 0 10px}
+.tag{display:inline-block;background:var(--sky);color:var(--navy);font-size:11px;font-weight:700;
+  padding:5px 10px;border-radius:999px}
+.revs{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.rev{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;margin:0}
+.stars{color:#f5a623;letter-spacing:2px;margin-bottom:8px;font-size:13px}
+.rev p{font-size:14px;margin-bottom:12px}
+.rev footer{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.faq{max-width:760px;margin:0 auto}
+.faq-item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:16px 18px;background:none;border:0;font:inherit;font-weight:700;font-size:15px;cursor:pointer;text-align:left;color:var(--ink)}
+.faq-x{width:28px;height:28px;border-radius:50%;background:var(--sky);color:var(--navy);display:grid;place-items:center;flex-shrink:0}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-a p{padding:0 18px 16px;color:var(--muted);font-size:14px}
+.faq-item.open .faq-a{max-height:200px}
+.faq-item.open .faq-x{background:var(--navy);color:#fff}
+.book{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:start}
+.form{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px}
+.form h3{margin-bottom:6px}.form .hint{color:var(--muted);font-size:13px;margin-bottom:16px}
+.form label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:0 0 6px}
+.form input,.form select,.form textarea{width:100%;padding:12px 14px;border:1px solid var(--line);
+  border-radius:10px;font:inherit;font-size:14px;margin-bottom:12px;background:#fafcfe}
+.form input:focus,.form select:focus{outline:2px solid var(--blue);border-color:transparent}
+#form-ok{background:#e8f8f0;color:var(--ok);padding:12px;border-radius:10px;font-size:14px;font-weight:600;margin-top:10px}
+.map{background:linear-gradient(145deg,#d4e8f5,#b8d4e8);border-radius:20px;min-height:280px;
+  display:grid;place-items:center;color:var(--navy);font-weight:700;position:relative;overflow:hidden}
+.map::before{content:'📍';font-size:48px;display:block;margin-bottom:8px}
+.float-call{position:fixed;right:22px;bottom:22px;z-index:60;background:var(--navy);color:#fff;
+  padding:14px 18px;border-radius:999px;font-weight:700;box-shadow:0 12px 30px rgba(11,60,93,.35)}
+footer.site{background:var(--navy);color:#c5d8e8;padding:36px 0;font-size:13px}
+footer.site .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:900px){
+  .menu{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;
+    padding:16px;border-bottom:1px solid var(--line);box-shadow:0 12px 24px rgba(0,0,0,.08)}
+  .menu.open{display:flex}
+  #burger{display:block}
+  .hero-in,.about,.hours-wrap,.book{grid-template-columns:1fr}
+  .svc-grid,.revs,.trust .wrap{grid-template-columns:1fr}
+  .team{grid-template-columns:1fr 1fr}
+}
+</style></head><body>
+    <header id="hdr"><div class="wrap nav">
+      <a class="brand" href="#"><div class="brand-m">D</div>
+        <div><b>DentaLine</b><span>Стоматологія · Одеса</span></div></a>
+      <nav class="menu" id="menu">
+        <a href="#svc">Послуги</a><a href="#about">Про клініку</a>
+        <a href="#hours">Графік</a><a href="#team">Лікарі</a>
+        <a href="#faq">Питання</a><a href="#book" class="nav-cta">Запис</a>
+      </nav>
+      <a class="btn btn-p" href="tel:+380482003040">📞 +380 48 200 30 40</a>
+      <button id="burger" aria-label="Меню">☰</button>
+    </div></header>
+
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="wrap hero-in">
+        <div>
+          <div class="pill"><i></i> Приймаємо сьогодні · вільні слоти</div>
+          <h1>Стоматологія в Одесі,<br>де <em>не бояться</em> лікуватись</h1>
+          <p class="lead">Мікроскоп, 3D-діагностика, прозорий кошторис.
+          Лікуємо зуби так, щоб хотілось повернутись — а не змушувати себе.</p>
+          <div class="hero-btns">
+            <a class="btn btn-p" href="#book">Онлайн-запис</a>
+            <a class="btn btn-g" href="#svc">Ціни на послуги</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h3>Найближчий візит</h3>
+          <div class="t">Терапевт · гігієна · консультація</div>
+          <div class="slots">
+            <span class="slot">сьогодні 16:30</span>
+            <span class="slot">завтра 10:00</span>
+            <span class="slot">завтра 14:00</span>
+          </div>
+          <div class="ph">+380 48 200 30 40</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="trust"><div class="wrap">
+      <div><b>4.9★</b><span>Google Maps</span></div>
+      <div><b>15</b><span>років в Одесі</span></div>
+      <div><b>8</b><span>лікарів</span></div>
+      <div><b>2</b><span>роки гарантії</span></div>
+    </div></div>
+
+    <section id="svc"><div class="wrap">
+      <div class="sec-h reveal">
+        <div class="kicker">ПОСЛУГИ ТА ЦІНИ</div>
+        <h2>Що ми робимо</h2>
+        <p>Натисніть на картку — коротко про метод і орієнтовну вартість</p>
+      </div>
+      <div class="svc-grid">
+        <button type="button" class="svc" data-i="0">
+          <div class="svc-ico">🔍</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Лікування карієсу</h3><span class="price">від 1 800 ₴</span></div>
+            <p>Під мікроскопом Zeiss. Збереження здорових тканин, композити преміум-класу.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="1">
+          <div class="svc-ico">🦴</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Імплантація</h3><span class="price">від 18 000 ₴</span></div>
+            <p>Системи Straumann / Osstem. 3D-планування, гарантія виробника.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="2">
+          <div class="svc-ico">✨</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Вініри та люмінири</h3><span class="price">від 12 000 ₴</span></div>
+            <p>Цифрове проектування усмішки (DSD). Кераміка E.max.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="3">
+          <div class="svc-ico">🪥</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Професійна гігієна</h3><span class="price">від 1 200 ₴</span></div>
+            <p>Air Flow + ультразвук + полірування. 40–60 хв.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="4">
+          <div class="svc-ico">😁</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Брекети / елайнери</h3><span class="price">від 25 000 ₴</span></div>
+            <p>Металеві, керамічні, самолігуючі. Invisalign за запитом.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="5">
+          <div class="svc-ico">🧒</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Дитяча стоматологія</h3><span class="price">від 900 ₴</span></div>
+            <p>Адаптаційний візит, седація закисом азоту, без сліз.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="6">
+          <div class="svc-ico">🦷</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Протезування</h3><span class="price">від 6 500 ₴</span></div>
+            <p>Коронки ZrO2, мости, знімні конструкції.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button>
+        <button type="button" class="svc" data-i="7">
+          <div class="svc-ico">⚕️</div>
+          <div class="svc-body">
+            <div class="svc-top"><h3>Хірургія</h3><span class="price">від 2 500 ₴</span></div>
+            <p>Видалення зубів мудрості, кісткова пластика, синус-ліфт.</p>
+            <span class="more">Детальніше →</span>
+          </div>
+        </button></div>
+    </div></section>
+
+    <section id="about" style="background:#eef6fb"><div class="wrap about">
+      <div class="about-img reveal" role="img" aria-label="Усмішка пацієнта"></div>
+      <div class="reveal">
+        <div class="kicker" style="color:var(--blue);font-weight:700;font-size:12px;letter-spacing:.16em">ПРО КЛІНІКУ</div>
+        <h2 style="font-size:32px;margin:8px 0 12px">15 років поруч з одеситами</h2>
+        <p style="color:var(--muted)">Приватна клініка на Французькому бульварі. Без черг,
+        з записом на зручну годину та лікарем, який пам’ятає вашу історію.</p>
+        <ul class="feat">
+          <li>✅ <span><b>Мікроскоп</b> — лікуємо канали з точністю 0.1 мм</span></li>
+          <li>✅ <span><b>Кошторис до старту</b> — без «сюрпризів» у касі</span></li>
+          <li>✅ <span><b>Дитячий кабінет</b> — адаптація без страху</span></li>
+          <li>✅ <span><b>Парковка</b> у дворі клініки</span></li>
+        </ul>
+      </div>
+    </div></section>
+
+    <section id="hours"><div class="wrap hours-wrap">
+      <div class="panel reveal">
+        <h3>🕐 Графік роботи</h3>
+        <table class='hours'><tbody><tr><td>Понеділок</td><td class=''>09:00 – 20:00</td></tr><tr><td>Вівторок</td><td class=''>09:00 – 20:00</td></tr><tr><td>Середа</td><td class=''>09:00 – 20:00</td></tr><tr><td>Четвер</td><td class=''>09:00 – 20:00</td></tr><tr><td>П’ятниця</td><td class=''>09:00 – 20:00</td></tr><tr><td>Субота</td><td class=''>10:00 – 17:00</td></tr><tr><td>Неділя</td><td class='off'>Вихідний</td></tr></tbody></table>
+        <p style="margin-top:14px;font-size:13px;color:var(--muted)">
+          Гострий біль — телефонуйте, тримаємо термінові слоти.</p>
+      </div>
+      <div class="panel reveal">
+        <h3>📍 Як дістатися</h3>
+        <div class="map"><div style="text-align:center">
+          <div>вул. Французький бульвар, 57<br>Одеса</div>
+          <p style="font-weight:500;font-size:13px;margin-top:8px">10 хв від Аркадії · парковка</p>
+        </div></div>
+      </div>
+    </div></section>
+
+    <section id="team" style="background:#eef6fb"><div class="wrap">
+      <div class="sec-h reveal"><div class="kicker">КОМАНДА</div>
+        <h2>Лікарі, яким довіряють</h2>
+        <p>Кожен — з профільною спеціалізацією, без «універсальних» на все</p></div>
+      <div class="team">
+        <article class="doc reveal">
+          <div class="doc-ava">👩‍⚕️</div>
+          <h3>Олена Коваль</h3>
+          <p class="role">Головний лікар · ортопед</p>
+          <span class="tag">18 років досвіду</span>
+        </article>
+        <article class="doc reveal">
+          <div class="doc-ava">👨‍⚕️</div>
+          <h3>Андрій Мельник</h3>
+          <p class="role">Хірург-імплантолог</p>
+          <span class="tag">12 років досвіду</span>
+        </article>
+        <article class="doc reveal">
+          <div class="doc-ava">🧑‍⚕️</div>
+          <h3>Ірина Шевченко</h3>
+          <p class="role">Дитячий стоматолог</p>
+          <span class="tag">9 років досвіду</span>
+        </article>
+        <article class="doc reveal">
+          <div class="doc-ava">👩‍⚕️</div>
+          <h3>Марія Бондар</h3>
+          <p class="role">Ортодонт</p>
+          <span class="tag">11 років досвіду</span>
+        </article></div>
+    </div></section>
+
+    <section><div class="wrap">
+      <div class="sec-h reveal"><div class="kicker">ВІДГУКИ</div>
+        <h2>Що кажуть пацієнти</h2></div>
+      <div class="revs">
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Боялась стоматологів 20 років. Тут пояснили кожен крок — і я вперше не тремтіла в кріслі.»</p>
+          <footer><b>Наталія, 42</b><span>Google</span></footer>
+        </blockquote>
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Поставили 2 імпланти. Все за планом, без сюрпризів у рахунку. Рекомендую.»</p>
+          <footer><b>Олег, 51</b><span>Google</span></footer>
+        </blockquote>
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Сину 6. Прийшли на адаптацію — вийшов з усмішкою і стікером. Це перемога.»</p>
+          <footer><b>Катерина</b><span>Instagram</span></footer>
+        </blockquote>
+        <blockquote class="rev reveal">
+          <div class="stars">★★★★★</div>
+          <p>«Вініри за 2 візити. Друзі думають, що я відпочивала — ні, просто змінила усмішку.»</p>
+          <footer><b>Аліна, 29</b><span>Google</span></footer>
+        </blockquote></div>
+    </div></section>
+
+    <section id="faq" style="background:#eef6fb"><div class="wrap">
+      <div class="sec-h reveal" style="margin-left:auto;margin-right:auto;text-align:center">
+        <div class="kicker">FAQ</div><h2>Часті питання</h2></div>
+      <div class="faq">
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Чи боляче лікувати зуби?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Використовуємо сучасну анестезію та, за потреби, седацію. Більшість пацієнтів кажуть: «навіть не відчула уколу».</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Скільки коштує перший візит?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Огляд і консультація — 400 ₴. Якщо лікуєтеся того ж дня — огляд безкоштовний.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Чи можна прийти з дитиною?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Так. Є дитячий куточок і окремий кабінет. Перший візит — знайомство без бормашини.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Як записатися терміново?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>Зателефонуйте: ми тримаємо 2–3 «гарячі» слоти щодня на гострий біль.</p></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span>Чи даєте гарантію?</span><span class="faq-x">+</span>
+          </button>
+          <div class="faq-a"><p>На пломби — 2 роки, на коронки/імпланти — за гарантією виробника (5–10 років).</p></div>
+        </div></div>
+    </div></section>
+
+    <section id="book"><div class="wrap book">
+      <div class="form reveal">
+        <h3>Онлайн-запис</h3>
+        <p class="hint">Адміністратор передзвонить протягом 15 хвилин</p>
+        <form id="book-form">
+          <label>Ім’я</label><input required name="name" placeholder="Як до вас звертатись">
+          <label>Телефон</label><input required name="phone" type="tel" placeholder="+380">
+          <label>Послуга</label>
+          <select name="svc">
+            <option>Консультація / огляд</option>
+            <option>Лікування карієсу</option>
+            <option>Профгігієна</option>
+            <option>Імплантація</option>
+            <option>Дитячий прийом</option>
+          </select>
+          <label>Коментар</label><textarea name="note" rows="3" placeholder="Зручний час, побажання"></textarea>
+          <button class="btn btn-p" style="width:100%;justify-content:center" type="submit">Записатися</button>
+          <div id="form-ok" hidden>✓ Заявку прийнято! Чекайте дзвінка.</div>
+        </form>
+      </div>
+      <div class="reveal">
+        <div class="panel" style="margin-bottom:16px">
+          <h3>Контакти</h3>
+          <p style="font-size:15px;margin:8px 0"><b>+380 48 200 30 40</b></p>
+          <p style="font-size:13px;color:var(--muted)">вул. Французький бульвар, 57<br>
+            <a href="#" style="color:var(--blue)">@dentaline.odesa</a></p>
+        </div>
+        <div class="panel">
+          <h3>Години</h3>
+          <p style="font-size:14px;margin-top:8px">Пн–Пт 09:00–20:00<br>Сб 10:00–17:00<br>Нд — вихідний</p>
+        </div>
+      </div>
+    </div></section>
+
+    <a class="float-call" href="tel:+380482003040">📞 Подзвонити</a>
+    <footer class="site"><div class="wrap row">
+      <span>© 2026 DentaLine · Одеса</span>
+      <span>Демо-макет сайту</span>
+    </div></footer>
+    <script>
+// reveal on scroll
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) e.target.classList.add('on');
+}), {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// FAQ
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => o.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(b => b.setAttribute('aria-expanded','false'));
+    if (!open) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+  });
+});
+
+// service modal-lite: expand detail under card
+document.querySelectorAll('.svc').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('active');
+  });
+});
+
+// mobile nav
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+if (burger) burger.addEventListener('click', () => menu.classList.toggle('open'));
+
+// form fake submit
+const form = document.getElementById('book-form');
+if (form) form.addEventListener('submit', e => {
+  e.preventDefault();
+  const ok = document.getElementById('form-ok');
+  ok.hidden = false;
+  form.reset();
+});
+
+// sticky header shadow
+const hdr = document.getElementById('hdr');
+window.addEventListener('scroll', () => {
+  hdr.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// working-hours "today" highlight
+const days = ['Неділя','Понеділок','Вівторок','Середа','Четвер','П’ятниця','Субота'];
+const today = days[new Date().getDay()];
+document.querySelectorAll('.hours tr').forEach(tr => {
+  if (tr.cells[0] && tr.cells[0].textContent.trim() === today) tr.classList.add('today');
+});
+</script>
+    </body></html>
