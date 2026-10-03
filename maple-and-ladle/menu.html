@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Menu &amp; Order — Maple &amp; Ladle</title>
+<meta name="description" content="This week's home-cooked menu. Order online — card via Stripe or Interac e-Transfer. Delivery across St. John's metro, Newfoundland." />
+<style>
+:root{
+  --bg:#F6EEDF; --card:#FFF9EF; --ink:#2E2A26; --ink-soft:#7A6F63; --line:#E4D9C4;
+  --accent:#C8502E; --accent-dark:#B8431F; --green:#6E9455; --amber:#D98E3F;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif}
+a{color:inherit}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px clamp(16px,4vw,48px);background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:1.05rem}
+.brand i{width:22px;height:26px;border-radius:7px 7px 10px 10px;background:linear-gradient(160deg,var(--accent),var(--accent-dark));
+  box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 35%,transparent)}
+.topbar nav{display:flex;gap:18px;font-size:.92rem}
+.topbar nav a{text-decoration:none;color:var(--ink-soft)}
+.topbar nav a:hover{color:var(--ink)}
+.cartbtn{border:0;cursor:pointer;font:inherit;font-weight:600;color:#fff;background:var(--ink);
+  padding:10px 18px;border-radius:999px;display:flex;gap:8px;align-items:center}
+.cartbtn b{background:var(--accent);border-radius:999px;padding:1px 9px;font-size:.85rem}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(16px,4vw,48px)}
+.hero{padding:clamp(28px,5vw,56px) 0 8px}
+.hero .eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.05;margin:10px 0 12px;letter-spacing:-.01em}
+.hero p{max-width:56ch;color:var(--ink-soft);line-height:1.55;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chips span{font-size:.82rem;font-weight:600;padding:7px 14px;border-radius:999px;background:color-mix(in srgb,var(--accent) 12%,#fff);
+  border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);color:color-mix(in srgb,var(--accent) 80%,#000)}
+.cats{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 10px}
+.cats button{font:inherit;font-size:.9rem;font-weight:600;padding:9px 16px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:var(--card);color:var(--ink-soft)}
+.cats button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;padding:14px 0 120px}
+.dish{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px;
+  box-shadow:0 6px 18px color-mix(in srgb,var(--ink) 5%,transparent)}
+.dish .art{align-self:center;width:96px;height:96px;color:var(--accent)}
+.dish h3{margin:2px 0 0;font-size:1.02rem}
+.dish p{margin:0;font-size:.86rem;color:var(--ink-soft);line-height:1.45;flex:1}
+.dish .all{display:flex;flex-wrap:wrap;gap:5px}
+.dish .all i{font-style:normal;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--ink-soft);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px}
+.price{font-weight:800;font-size:1.08rem}
+.add{border:0;cursor:pointer;font:inherit;font-weight:700;font-size:.9rem;color:#fff;background:var(--accent);
+  padding:9px 18px;border-radius:999px;transition:transform .15s}
+.add:hover{transform:translateY(-2px);background:var(--accent-dark)}
+.add.in{background:var(--green)}
+.qty{display:flex;align-items:center;gap:10px}
+.qty button{width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:var(--card);
+  font-weight:800;cursor:pointer;font-size:1rem;color:var(--ink)}
+.qty b{min-width:20px;text-align:center}
+.cartbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;justify-content:center;padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  background:linear-gradient(0deg,var(--bg) 55%,transparent)}
+.cartbar.show{display:flex}
+.cartbar button{font:inherit;font-weight:700;color:#fff;background:var(--ink);border:0;border-radius:999px;
+  padding:14px 26px;cursor:pointer;display:flex;gap:14px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.cartbar b{background:var(--accent);border-radius:999px;padding:2px 10px}
+.overlay{position:fixed;inset:0;z-index:60;background:rgba(46,42,38,.45);display:none;align-items:flex-end;justify-content:center}
+.overlay.show{display:flex}
+.modal{background:var(--bg);width:min(680px,100%);max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;
+  padding:22px clamp(18px,4vw,32px) calc(28px + env(safe-area-inset-bottom))}
+.modal h2{margin:0 0 4px;font-size:1.4rem}
+.modal .sub{color:var(--ink-soft);font-size:.9rem;margin:0 0 14px}
+.lines{display:flex;flex-direction:column;gap:10px;margin:10px 0}
+.line{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.line .n{flex:1;font-weight:600;font-size:.95rem}
+.line .s{color:var(--ink-soft);font-size:.85rem}
+.line .qty button{width:28px;height:28px;font-size:.9rem}
+.tot{display:flex;flex-direction:column;gap:6px;margin:14px 0;padding:14px 16px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;font-size:.95rem}
+.tot div{display:flex;justify-content:space-between}
+.tot .g{font-weight:800;font-size:1.1rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:4px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.fields label{display:flex;flex-direction:column;gap:5px;font-size:.8rem;font-weight:700;color:var(--ink-soft)}
+.fields label.wide{grid-column:1/-1}
+.fields input,.fields select{font:inherit;padding:11px 13px;border-radius:12px;border:1px solid var(--line);
+  background:#fff;color:var(--ink)}
+.pay{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.pay button{font:inherit;font-weight:700;font-size:1rem;color:#fff;border:0;border-radius:14px;padding:15px 20px;cursor:pointer}
+.pay .card{background:var(--accent)}
+.pay .card:hover{background:var(--accent-dark)}
+.pay .interac{background:var(--green)}
+.pilot{font-size:.8rem;color:var(--ink-soft);background:var(--bg);border:1px dashed var(--accent);
+  border-radius:12px;padding:10px 14px;margin-top:12px;line-height:1.5}
+.back{display:inline-flex;gap:6px;text-decoration:none;font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+.copybox{width:100%;font:inherit;font-size:.82rem;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;height:110px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);opacity:0;transition:.25s;
+  background:var(--ink);color:#fff;font-weight:600;font-size:.9rem;padding:11px 20px;border-radius:999px;z-index:70;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%)}
+footer{padding:26px clamp(16px,4vw,48px) 120px;color:var(--ink-soft);font-size:.82rem;line-height:1.6;
+  border-top:1px solid var(--line);margin-top:20px}
+@media (max-width:640px){ .fields{grid-template-columns:1fr} .topbar nav{display:none} }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html"><i></i>Maple &amp; Ladle</a>
+  <nav><a href="index.html">Our story</a><a href="#menu">Menu</a><a href="#faq">Delivery</a></nav>
+  <button class="cartbtn" onclick="openCart()">Cart <b id="cartCount">0</b></button>
+</header>
+
+<main class="wrap" id="menu">
+  <section class="hero">
+    <div class="eyebrow">St. John's, Newfoundland · Home-cooked dinners</div>
+    <h1>This week's menu is ready.</h1>
+    <p>Two chefs, one home kitchen. Every dish is cooked the day it ships, labelled with everything that's inside, and delivered warm across St. John's metro. Order by 6&nbsp;pm the day before your delivery day.</p>
+    <div class="chips">
+      <span>Delivery Tue · Thu · Sat</span><span>HST included at checkout</span><span>Free delivery over $60</span><span>Card &amp; Interac e-Transfer</span>
+    </div>
+  </section>
+
+  <div class="cats" id="cats"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer id="faq">
+  <b>Delivery &amp; pickup</b> — St. John's metro (St. John's, Mount Pearl, Paradise, CBS). Delivery days: Tuesday, Thursday, Saturday; you pick the window at checkout. Free delivery on orders over $60, otherwise $5.<br><br>
+  <b>Paying</b> — pay by card (Stripe, CAD) or by Interac e-Transfer. For e-Transfer, place the order and send the exact total to the e-mail shown at checkout; your order confirms when the transfer arrives.<br><br>
+  <b>Food safety</b> — both chefs hold valid Newfoundland &amp; Labrador food-handler certificates. Allergens are listed on every dish; dishes are prepared in a kitchen that handles fish, dairy, eggs, gluten and mustard.<br><br>
+  <b>Maple &amp; Ladle</b> · St. John's, NL · hello@mapleandladle.ca · +1 (709) 555-0123
+</footer>
+
+<div class="cartbar" id="cartbar"><button onclick="openCart()">View cart · <span id="barTotal">$0.00</span> <b id="barCount">0</b></button></div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-cod" viewBox="0 0 64 64"><rect x="8" y="30" width="48" height="20" rx="8" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M12 30 q20 -14 40 0" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="24" cy="40" r="2.6" fill="currentColor"/><circle cx="34" cy="43" r="2.6" fill="currentColor"/><circle cx="43" cy="40" r="2.6" fill="currentColor"/><path d="M26 20 q6 -8 0 -14 M38 20 q6 -8 0 -14" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-jiggs" viewBox="0 0 64 64"><circle cx="32" cy="36" r="22" fill="none" stroke="currentColor" stroke-width="3.5"/><ellipse cx="26" cy="34" rx="8" ry="6" fill="currentColor"/><circle cx="40" cy="30" r="4.5" fill="currentColor"/><circle cx="42" cy="41" r="5" fill="currentColor"/><circle cx="33" cy="45" r="4" fill="currentColor"/></symbol>
+  <symbol id="i-chicken" viewBox="0 0 64 64"><path d="M20 44 q-10 -4 -8 -14 q2 -14 18 -14 q16 0 20 14 q3 12 -10 16 q-10 3 -20 -2 z" fill="none" stroke="currentColor" stroke-width="3.5"/><rect x="14" y="44" width="10" height="6" rx="3" fill="currentColor"/><path d="M30 28 q8 -4 12 2" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-stew" viewBox="0 0 64 64"><path d="M10 30 h44 q-2 18 -22 18 t-22 -18 z" fill="none" stroke="currentColor" stroke-width="3.5"/><rect x="22" y="22" width="9" height="8" rx="2.5" fill="currentColor"/><rect x="35" y="20" width="9" height="8" rx="2.5" fill="currentColor"/><path d="M26 12 q5 -6 0 -10 M38 12 q5 -6 0 -10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-mac" viewBox="0 0 64 64"><path d="M10 32 h44 q-2 18 -22 18 t-22 -18 z" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M16 30 q6 -8 12 -2 q6 -8 12 -2 q6 -6 12 2" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><circle cx="26" cy="25" r="2.4" fill="currentColor"/><circle cx="40" cy="24" r="2.4" fill="currentColor"/></symbol>
+  <symbol id="i-chowder" viewBox="0 0 64 64"><path d="M10 30 h44 q-2 18 -22 18 t-22 -18 z" fill="none" stroke="currentColor" stroke-width="3.5"/><ellipse cx="32" cy="27" rx="17" ry="5" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="26" cy="27" r="2.2" fill="currentColor"/><circle cx="38" cy="26" r="2.2" fill="currentColor"/><path d="M28 14 q5 -6 0 -10 M40 15 q5 -6 0 -10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-soup" viewBox="0 0 64 64"><path d="M10 32 h44 q-2 18 -22 18 t-22 -18 z" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="26" cy="27" r="2.2" fill="currentColor"/><circle cx="38" cy="28" r="2.2" fill="currentColor"/><circle cx="32" cy="22" r="2.2" fill="currentColor"/><circle cx="52" cy="18" r="8" fill="none" stroke="currentColor" stroke-width="3"/></symbol>
+  <symbol id="i-toutons" viewBox="0 0 64 64"><circle cx="26" cy="36" r="13" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="41" cy="30" r="13" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M47 12 v8 q6 0 6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M14 52 h36" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-salad" viewBox="0 0 64 64"><path d="M10 32 h44 q-2 18 -22 18 t-22 -18 z" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M22 26 q6 -10 14 -6 q-2 10 -14 6 z" fill="currentColor"/><path d="M36 24 q8 -8 14 -2 q-4 10 -14 2 z" fill="currentColor"/><path d="M30 18 q4 -6 10 -4" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-crisp" viewBox="0 0 64 64"><path d="M14 32 h36 l-4 16 q-1 6 -8 6 h-12 q-7 0 -8 -6 z" fill="none" stroke="currentColor" stroke-width="3.5"/><ellipse cx="32" cy="30" rx="18" ry="6" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="27" cy="24" r="2.4" fill="currentColor"/><circle cx="37" cy="22" r="2.4" fill="currentColor"/><path d="M26 12 q5 -6 0 -10 M40 13 q5 -6 0 -10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-berry" viewBox="0 0 64 64"><rect x="12" y="26" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="3.5"/><rect x="33" y="20" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="21" cy="35" r="2.4" fill="currentColor"/><circle cx="42" cy="29" r="2.4" fill="currentColor"/><path d="M14 54 h36" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-tray" viewBox="0 0 64 64"><rect x="8" y="26" width="48" height="16" rx="6" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M12 26 q4 -8 10 -8 M26 26 q4 -8 10 -8 M40 26 q4 -8 10 -8" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M8 48 h48" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".5"/></symbol>
+</svg>
+
+<script>
+/* ==================== НАСТРОЙКИ БИЗНЕСА (заполняется при запуске) ==================== */
+const CONFIG = {
+  interacEmail: 'pay@mapleandladle.ca',          // e-mail для Interac e-Transfer (реальный — при запуске)
+  taxRate: 0.15, taxLabel: 'HST (15%)',          // Newfoundland & Labrador
+  deliveryFee: 5, freeOver: 60,
+  days: ['Tuesday','Thursday','Saturday'],
+  windows: ['11:00 – 13:00','17:00 – 19:00'],
+  // Stripe Payment Links: { dishId: 'https://buy.stripe.com/...' } — вставляются при запуске (см. README)
+  stripeLinks: {}
+};
+
+/* ==================== МЕНЮ ==================== */
+const DISHES = [
+  { id:'cod',   cat:'Mains', name:'Cod au Gratin', price:16, allergens:['fish','dairy','gluten'], icon:'i-cod',
+    desc:'Flaky baked cod under a cheddar-cream crust with herbed breadcrumbs. A Newfoundland classic, done properly.' },
+  { id:'jiggs', cat:'Mains', name:'Jiggs Dinner Plate', price:17, allergens:[], icon:'i-jiggs',
+    desc:'Salt beef, cabbage, turnip, carrot and potato, slow-simmered the traditional way. Served with pease pudding.' },
+  { id:'chicken', cat:'Mains', name:'Maple-Glazed Chicken', price:15, allergens:['mustard'], icon:'i-chicken',
+    desc:'Oven-roasted chicken thighs with a maple-Dijon glaze, roasted root vegetables on the side.' },
+  { id:'stew',  cat:'Mains', name:'Beef & Root Vegetable Stew', price:15, allergens:[], icon:'i-stew',
+    desc:'Slow-simmered beef with potato, carrot and parsnip. Thick, rich and built for a cold evening.' },
+  { id:'mac',   cat:'Mains', name:'Baked Mac & Cheese', price:13, allergens:['dairy','gluten'], icon:'i-mac',
+    desc:'Old-cheddar macaroni bake with a golden top. The kids\' universal favourite.' },
+  { id:'chowder', cat:'Mains', name:'Haddock Chowder', price:14, allergens:['fish','dairy'], icon:'i-chowder',
+    desc:'Creamy haddock chowder with potato, onion and a little smoked flavour. Served with bread and butter.' },
+  { id:'soup',  cat:'Soups & Sides', name:'Pea Soup with a Doughboy', price:8, allergens:['gluten'], icon:'i-soup',
+    desc:'Split-pea soup with a fresh steamed doughboy. Simple, warming, exactly right.' },
+  { id:'toutons', cat:'Soups & Sides', name:'Toutons with Molasses (2 pcs)', price:6, allergens:['gluten'], icon:'i-toutons',
+    desc:'Pan-fried dough, golden on both sides. Traditional breakfast, welcome at any hour.' },
+  { id:'salad', cat:'Soups & Sides', name:'Garden Side Salad', price:6, allergens:[], icon:'i-salad',
+    desc:'Crisp greens, cucumber and tomato with our house maple vinaigrette. Vegan.' },
+  { id:'crisp', cat:'Desserts', name:'Baked Apple & Maple Crisp', price:6, allergens:['dairy','gluten'], icon:'i-crisp',
+    desc:'Warm spiced apples under an oat-crumble top, sweetened with Newfoundland maple.' },
+  { id:'berry', cat:'Desserts', name:'Partridgeberry Squares (2 pcs)', price:5, allergens:['gluten'], icon:'i-berry',
+    desc:'Buttery squares with tart partridgeberry filling — a local berry we wait all year for.' },
+  { id:'tray',  cat:'Family Trays', name:'Family Roast Tray (serves 4)', price:32, allergens:['dairy','gluten'], icon:'i-tray',
+    desc:'The week\'s roast with sides and gravy, boxed family-style. Ask us what\'s in the oven this week.' }
+];
+
+/* ==================== ЛОГИКА ==================== */
+let cart = JSON.parse(localStorage.getItem('ml_cart') || '{}');
+let cat = 'All';
+const $ = s => document.querySelector(s);
+const money = n => '$' + n.toFixed(2);
+const byId = id => DISHES.find(d => d.id === id);
+
+function save(){ localStorage.setItem('ml_cart', JSON.stringify(cart)); }
+function count(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
+function subtotal(){ return Object.entries(cart).reduce((a,[id,q])=>a+byId(id).price*q,0); }
+
+function renderCats(){
+  const cats = ['All', ...new Set(DISHES.map(d=>d.cat))];
+  $('#cats').innerHTML = cats.map(c =>
+    `<button class="${c===cat?'on':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+}
+function setCat(c){ cat = c; renderCats(); renderGrid(); }
+function renderGrid(){
+  $('#grid').innerHTML = DISHES.filter(d=>cat==='All'||d.cat===cat).map(d=>{
+    const q = cart[d.id]||0;
+    const ctrl = q
+      ? `<div class="qty"><button onclick="dec('${d.id}')">−</button><b>${q}</b><button onclick="inc('${d.id}')">+</button></div>`
+      : `<button class="add" onclick="inc('${d.id}')">Add</button>`;
+    return `<article class="dish">
+      <svg class="art"><use href="#${d.icon}"/></svg>
+      <h3>${d.name}</h3><p>${d.desc}</p>
+      <div class="all">${d.allergens.map(a=>`<i>${a}</i>`).join('')}${d.allergens.length?'':'<i>no major allergens</i>'}</div>
+      <div class="row"><span class="price">${money(d.price)}</span>${ctrl}</div>
+    </article>`;
+  }).join('');
+}
+function inc(id){ cart[id]=(cart[id]||0)+1; save(); sync(); toast(`${byId(id).name} added`); }
+function dec(id){ if(!cart[id]) { delete cart[id]; save(); sync(); return; } if(--cart[id]<1) delete cart[id]; save(); sync(); }
+function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('show'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),1600); }
+function sync(){
+  renderGrid();
+  $('#cartCount').textContent = count();
+  $('#barCount').textContent = count();
+  $('#barTotal').textContent = money(subtotal());
+  $('#cartbar').classList.toggle('show', count()>0);
+}
+function totals(){
+  const sub = subtotal();
+  const del = (sub===0 || sub>=CONFIG.freeOver) ? 0 : CONFIG.deliveryFee;
+  const tax = (sub+del)*CONFIG.taxRate;
+  return { sub, del, tax, total: sub+del+tax };
+}
+function openCart(){
+  const t = totals();
+  const lines = Object.entries(cart).map(([id,q])=>{ const d=byId(id); return `
+    <div class="line"><span class="n">${d.name}<div class="s">${money(d.price)} each</div></span>
+    <div class="qty"><button onclick="dec('${id}');openCart()">−</button><b>${q}</b><button onclick="inc('${id}');openCart()">+</button></div>
+    <b>${money(d.price*q)}</b></div>`; }).join('');
+  const saved = JSON.parse(localStorage.getItem('ml_customer')||'{}');
+  const dayOpts = CONFIG.days.map(d=>`<option ${saved.day===d?'selected':''}>${d}</option>`).join('');
+  const winOpts = CONFIG.windows.map(w=>`<option ${saved.window===w?'selected':''}>${w}</option>`).join('');
+  $('#modal').innerHTML = `
+    <h2>Your order</h2>
+    <p class="sub">Order by 6 pm the day before your delivery day. Free delivery over ${money(CONFIG.freeOver)}.</p>
+    <div class="lines">${lines || '<p class="sub">Cart is empty — add something tasty from the menu.</p>'}</div>
+    <div class="tot">
+      <div><span>Subtotal</span><span>${money(t.sub)}</span></div>
+      <div><span>Delivery (St. John's metro)</span><span>${t.del?money(t.del):'Free'}</span></div>
+      <div><span>${CONFIG.taxLabel}</span><span>${money(t.tax)}</span></div>
+      <div class="g"><span>Total</span><span>${money(t.total)}</span></div>
+    </div>
+    <div class="fields">
+      <label>Name<input id="fName" value="${saved.name||''}" placeholder="Full name"></label>
+      <label>Phone<input id="fPhone" value="${saved.phone||''}" placeholder="(709) 555-0000"></label>
+      <label class="wide">Delivery address<input id="fAddr" value="${saved.addr||''}" placeholder="Street, city"></label>
+      <label>E-mail<input id="fEmail" value="${saved.email||''}" placeholder="you@example.ca"></label>
+      <label>Delivery day<select id="fDay">${dayOpts}</select></label>
+      <label>Window<select id="fWindow">${winOpts}</select></label>
+    </div>
+    <div class="pay">
+      <button class="card" onclick="checkout('card')">Pay by card — Stripe</button>
+      <button class="interac" onclick="checkout('interac')">Pay by Interac e-Transfer</button>
+    </div>
+    <div class="pilot"><b>Pilot build:</b> checkout is wired for demo. For live payments, paste Stripe Payment Links into <b>CONFIG.stripeLinks</b> and set the real Interac e-mail — step-by-step in <b>README.md</b>.</div>
+    <a class="back" href="#" onclick="closeCart();return false">← back to menu</a>`;
+  $('#overlay').classList.add('show');
+}
+function closeCart(){ $('#overlay').classList.remove('show'); }
+function summaryText(){
+  const t = totals();
+  const code = 'ML-' + Math.random().toString(36).slice(2,7).toUpperCase();
+  const cust = readCustomer();
+  localStorage.setItem('ml_code', code);
+  return `Order ${code} — Maple & Ladle
+${Object.entries(cart).map(([id,q])=>`${q} × ${byId(id).name} — ${money(byId(id).price*q)}`).join('\n')}
+Subtotal: ${money(t.sub)} | Delivery: ${t.del?money(t.del):'Free'} | ${CONFIG.taxLabel}: ${money(t.tax)}
+TOTAL: ${money(t.total)} (CAD)
+Deliver: ${cust.day}, ${cust.window} — ${cust.addr}
+${cust.name}, ${cust.phone}, ${cust.email}`;
+}
+function readCustomer(){
+  const saved = JSON.parse(localStorage.getItem('ml_customer')||'{}');
+  const val = (id, k) => (document.querySelector(id)?.value.trim()) || saved[k] || '';
+  const c = { name: val('#fName','name'), phone: val('#fPhone','phone'), addr: val('#fAddr','addr'),
+    email: val('#fEmail','email'),
+    day: document.querySelector('#fDay')?.value || saved.day || CONFIG.days[0],
+    window: document.querySelector('#fWindow')?.value || saved.window || CONFIG.windows[0] };
+  localStorage.setItem('ml_customer', JSON.stringify(c));
+  return c;
+}
+function checkout(kind){
+  if(count()===0){ toast('Cart is empty'); return; }
+  const c = readCustomer();
+  if(!c.name || !c.phone || !c.addr || !c.email){ toast('Fill in name, phone, address and e-mail'); return; }
+  const t = totals();
+  if(kind==='card'){
+    const links = Object.keys(cart).map(id=>CONFIG.stripeLinks[id]).filter(Boolean);
+    $('#modal').innerHTML = `
+      <h2>Pay by card</h2>
+      <p class="sub">Total ${money(t.total)} CAD incl. ${CONFIG.taxLabel}.</p>
+      ${links.length
+        ? `<p class="sub">Redirecting to secure Stripe checkout…</p>`
+        : `<div class="pilot"><b>Demo mode.</b> In the live build this button opens our <b>Stripe Payment Link</b> (cards, Apple&nbsp;Pay, Google&nbsp;Pay, CAD, automatic HST receipts). To connect: create links in the Stripe dashboard for each dish (or one link with amounts), paste them into <b>CONFIG.stripeLinks</b> in this file — see <b>README.md</b>, step&nbsp;1.</div>`}
+      <pre class="copybox">${summaryText()}</pre>
+      <div class="pay"><button class="interac" onclick="checkout('interac')">Switch to Interac e-Transfer</button></div>
+      <a class="back" href="#" onclick="closeCart();return false">← back to menu</a>`;
+  } else {
+    $('#modal').innerHTML = `
+      <h2>Interac e-Transfer</h2>
+      <p class="sub">Send <b>${money(t.total)}</b> to <b>${CONFIG.interacEmail}</b>, then paste the order text below into the transfer message.</p>
+      <pre class="copybox" id="sumBox">${summaryText()}</pre>
+      <div class="pay">
+        <button class="interac" onclick="copySum()">Copy order text</button>
+        <button class="card" onclick="checkout('card')">Switch to card</button>
+      </div>
+      <div class="pilot"><b>Demo mode.</b> In the live build we set the real Interac e-mail in <b>CONFIG.interacEmail</b> (see README, step&nbsp;2). The order confirms automatically once the transfer arrives.</div>
+      <a class="back" href="#" onclick="closeCart();return false">← back to menu</a>`;
+  }
+}
+function copySum(){
+  const box = $('#sumBox');
+  box.select();
+  try { navigator.clipboard.writeText(box.value); } catch(e){ document.execCommand('copy'); }
+  toast('Order text copied');
+}
+$('#overlay').addEventListener('click', e=>{ if(e.target.id==='overlay') closeCart(); });
+renderCats(); sync();
+</script>
+</body>
+</html>
