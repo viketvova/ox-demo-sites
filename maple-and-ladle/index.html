@@ -74,5 +74,12 @@
       connectors: []
     });
   </script>
+<script>
+setTimeout(function () {
+  [1,2,3,4,5,6].forEach(function (n) {
+    fetch('assets/vid/dive' + n + '.mp4').catch(function () {});
+  });
+}, 1500);
+</script>
 </body>
 </html>
