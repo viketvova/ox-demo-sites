@@ -44,6 +44,10 @@ a{color:inherit}
 .dish .art{align-self:center;width:96px;height:96px;color:var(--accent)}
 .dish h3{margin:2px 0 0;font-size:1.02rem}
 .dish p{margin:0;font-size:.86rem;color:var(--ink-soft);line-height:1.45;flex:1}
+.dish .photo{width:100%;height:150px;object-fit:cover;border-radius:14px;display:block}
+.dish .comp{font-size:.78rem;color:var(--ink-soft);font-style:italic;line-height:1.4}
+.dish.off{opacity:.55}
+.soldout{font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#b3543f;padding:8px 14px;border-radius:999px}
 .dish .all{display:flex;flex-wrap:wrap;gap:5px}
 .dish .all i{font-style:normal;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
   color:var(--ink-soft);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
@@ -137,6 +141,8 @@ footer{padding:26px clamp(16px,4vw,48px) 120px;color:var(--ink-soft);font-size:.
 
 <div class="toast" id="toast"></div>
 
+<script src="menu-data.js"></script>
+
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
   <symbol id="i-cod" viewBox="0 0 64 64"><rect x="8" y="30" width="48" height="20" rx="8" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M12 30 q20 -14 40 0" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="24" cy="40" r="2.6" fill="currentColor"/><circle cx="34" cy="43" r="2.6" fill="currentColor"/><circle cx="43" cy="40" r="2.6" fill="currentColor"/><path d="M26 20 q6 -8 0 -14 M38 20 q6 -8 0 -14" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
   <symbol id="i-jiggs" viewBox="0 0 64 64"><circle cx="32" cy="36" r="22" fill="none" stroke="currentColor" stroke-width="3.5"/><ellipse cx="26" cy="34" rx="8" ry="6" fill="currentColor"/><circle cx="40" cy="30" r="4.5" fill="currentColor"/><circle cx="42" cy="41" r="5" fill="currentColor"/><circle cx="33" cy="45" r="4" fill="currentColor"/></symbol>
@@ -149,54 +155,21 @@ footer{padding:26px clamp(16px,4vw,48px) 120px;color:var(--ink-soft);font-size:.
   <symbol id="i-salad" viewBox="0 0 64 64"><path d="M10 32 h44 q-2 18 -22 18 t-22 -18 z" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M22 26 q6 -10 14 -6 q-2 10 -14 6 z" fill="currentColor"/><path d="M36 24 q8 -8 14 -2 q-4 10 -14 2 z" fill="currentColor"/><path d="M30 18 q4 -6 10 -4" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
   <symbol id="i-crisp" viewBox="0 0 64 64"><path d="M14 32 h36 l-4 16 q-1 6 -8 6 h-12 q-7 0 -8 -6 z" fill="none" stroke="currentColor" stroke-width="3.5"/><ellipse cx="32" cy="30" rx="18" ry="6" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="27" cy="24" r="2.4" fill="currentColor"/><circle cx="37" cy="22" r="2.4" fill="currentColor"/><path d="M26 12 q5 -6 0 -10 M40 13 q5 -6 0 -10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
   <symbol id="i-berry" viewBox="0 0 64 64"><rect x="12" y="26" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="3.5"/><rect x="33" y="20" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="21" cy="35" r="2.4" fill="currentColor"/><circle cx="42" cy="29" r="2.4" fill="currentColor"/><path d="M14 54 h36" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-plate" viewBox="0 0 64 64"><circle cx="32" cy="34" r="20" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="32" cy="34" r="11" fill="none" stroke="currentColor" stroke-width="3"/><path d="M18 14 h28" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".5"/></symbol>
   <symbol id="i-tray" viewBox="0 0 64 64"><rect x="8" y="26" width="48" height="16" rx="6" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M12 26 q4 -8 10 -8 M26 26 q4 -8 10 -8 M40 26 q4 -8 10 -8" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M8 48 h48" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".5"/></symbol>
 </svg>
 
 <script>
-/* ==================== НАСТРОЙКИ БИЗНЕСА (заполняется при запуске) ==================== */
-const CONFIG = {
-  interacEmail: 'pay@mapleandladle.ca',          // e-mail для Interac e-Transfer (реальный — при запуске)
-  taxRate: 0.15, taxLabel: 'HST (15%)',          // Newfoundland & Labrador
-  deliveryFee: 5, freeOver: 60,
-  days: ['Tuesday','Thursday','Saturday'],
-  windows: ['11:00 – 13:00','17:00 – 19:00'],
-  // Stripe Payment Links: { dishId: 'https://buy.stripe.com/...' } — вставляются при запуске (см. README)
-  stripeLinks: {}
-};
-
-/* ==================== МЕНЮ ==================== */
-const DISHES = [
-  { id:'cod',   cat:'Mains', name:'Cod au Gratin', price:16, allergens:['fish','dairy','gluten'], icon:'i-cod',
-    desc:'Flaky baked cod under a cheddar-cream crust with herbed breadcrumbs. A Newfoundland classic, done properly.' },
-  { id:'jiggs', cat:'Mains', name:'Jiggs Dinner Plate', price:17, allergens:[], icon:'i-jiggs',
-    desc:'Salt beef, cabbage, turnip, carrot and potato, slow-simmered the traditional way. Served with pease pudding.' },
-  { id:'chicken', cat:'Mains', name:'Maple-Glazed Chicken', price:15, allergens:['mustard'], icon:'i-chicken',
-    desc:'Oven-roasted chicken thighs with a maple-Dijon glaze, roasted root vegetables on the side.' },
-  { id:'stew',  cat:'Mains', name:'Beef & Root Vegetable Stew', price:15, allergens:[], icon:'i-stew',
-    desc:'Slow-simmered beef with potato, carrot and parsnip. Thick, rich and built for a cold evening.' },
-  { id:'mac',   cat:'Mains', name:'Baked Mac & Cheese', price:13, allergens:['dairy','gluten'], icon:'i-mac',
-    desc:'Old-cheddar macaroni bake with a golden top. The kids\' universal favourite.' },
-  { id:'chowder', cat:'Mains', name:'Haddock Chowder', price:14, allergens:['fish','dairy'], icon:'i-chowder',
-    desc:'Creamy haddock chowder with potato, onion and a little smoked flavour. Served with bread and butter.' },
-  { id:'soup',  cat:'Soups & Sides', name:'Pea Soup with a Doughboy', price:8, allergens:['gluten'], icon:'i-soup',
-    desc:'Split-pea soup with a fresh steamed doughboy. Simple, warming, exactly right.' },
-  { id:'toutons', cat:'Soups & Sides', name:'Toutons with Molasses (2 pcs)', price:6, allergens:['gluten'], icon:'i-toutons',
-    desc:'Pan-fried dough, golden on both sides. Traditional breakfast, welcome at any hour.' },
-  { id:'salad', cat:'Soups & Sides', name:'Garden Side Salad', price:6, allergens:[], icon:'i-salad',
-    desc:'Crisp greens, cucumber and tomato with our house maple vinaigrette. Vegan.' },
-  { id:'crisp', cat:'Desserts', name:'Baked Apple & Maple Crisp', price:6, allergens:['dairy','gluten'], icon:'i-crisp',
-    desc:'Warm spiced apples under an oat-crumble top, sweetened with Newfoundland maple.' },
-  { id:'berry', cat:'Desserts', name:'Partridgeberry Squares (2 pcs)', price:5, allergens:['gluten'], icon:'i-berry',
-    desc:'Buttery squares with tart partridgeberry filling — a local berry we wait all year for.' },
-  { id:'tray',  cat:'Family Trays', name:'Family Roast Tray (serves 4)', price:32, allergens:['dairy','gluten'], icon:'i-tray',
-    desc:'The week\'s roast with sides and gravy, boxed family-style. Ask us what\'s in the oven this week.' }
-];
+/* ==================== ДАННЫЕ (edit via admin.html -> menu-data.js) ==================== */
+const CONFIG = window.ML_DATA.config;
+const DISHES = window.ML_DATA.dishes;
 
 /* ==================== ЛОГИКА ==================== */
 let cart = JSON.parse(localStorage.getItem('ml_cart') || '{}');
 let cat = 'All';
 const $ = s => document.querySelector(s);
 const money = n => '$' + n.toFixed(2);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const byId = id => DISHES.find(d => d.id === id);
 
 function save(){ localStorage.setItem('ml_cart', JSON.stringify(cart)); }
@@ -212,18 +185,25 @@ function setCat(c){ cat = c; renderCats(); renderGrid(); }
 function renderGrid(){
   $('#grid').innerHTML = DISHES.filter(d=>cat==='All'||d.cat===cat).map(d=>{
     const q = cart[d.id]||0;
-    const ctrl = q
-      ? `<div class="qty"><button onclick="dec('${d.id}')">−</button><b>${q}</b><button onclick="inc('${d.id}')">+</button></div>`
-      : `<button class="add" onclick="inc('${d.id}')">Add</button>`;
-    return `<article class="dish">
-      <svg class="art"><use href="#${d.icon}"/></svg>
-      <h3>${d.name}</h3><p>${d.desc}</p>
+    const sold = d.available === false;
+    const art = d.photo
+      ? `<img class="photo" src="${d.photo}" alt="${esc(d.name)}">`
+      : `<svg class="art"><use href="#${d.icon}"/></svg>`;
+    const ctrl = sold
+      ? `<span class="soldout">Sold out</span>`
+      : (q
+          ? `<div class="qty"><button onclick="dec('${d.id}')">−</button><b>${q}</b><button onclick="inc('${d.id}')">+</button></div>`
+          : `<button class="add" onclick="inc('${d.id}')">Add</button>`);
+    return `<article class="dish${sold?' off':''}">
+      ${art}
+      <h3>${esc(d.name)}</h3><p>${esc(d.desc)}</p>
+      ${d.composition ? `<div class="comp">${esc(d.composition)}</div>` : ''}
       <div class="all">${d.allergens.map(a=>`<i>${a}</i>`).join('')}${d.allergens.length?'':'<i>no major allergens</i>'}</div>
       <div class="row"><span class="price">${money(d.price)}</span>${ctrl}</div>
     </article>`;
   }).join('');
 }
-function inc(id){ cart[id]=(cart[id]||0)+1; save(); sync(); toast(`${byId(id).name} added`); }
+function inc(id){ const d = byId(id); if (d.available === false) { toast(d.name + ' is sold out'); return; } cart[id]=(cart[id]||0)+1; save(); sync(); toast(`${d.name} added`); }
 function dec(id){ if(!cart[id]) { delete cart[id]; save(); sync(); return; } if(--cart[id]<1) delete cart[id]; save(); sync(); }
 function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('show'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),1600); }
 function sync(){
