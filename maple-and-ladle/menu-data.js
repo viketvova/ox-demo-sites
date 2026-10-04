@@ -16,7 +16,8 @@ window.ML_DATA = {
     freeOver: 60,
     days: ['Tuesday', 'Thursday', 'Saturday'],
     windows: ['11:00 – 13:00', '17:00 – 19:00'],
-    stripeLinks: {}
+    stripeLinks: {},
+    sheetUrl: ''   // CSV-ссылка опубликованной Google-таблицы (меню правится в таблице)
   },
   dishes: [
     {

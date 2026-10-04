@@ -164,6 +164,79 @@ footer{padding:26px clamp(16px,4vw,48px) 120px;color:var(--ink-soft);font-size:.
 const CONFIG = window.ML_DATA.config;
 const DISHES = window.ML_DATA.dishes;
 
+/* ===== Google Sheet как источник меню (опционально) =====
+   config.sheetUrl = «опубликованная» CSV-ссылка листа Menu.
+   Повара правят таблицу с телефона -> сайт обновляет меню сам.
+   Пока таблица недоступна — работает встроенное меню из menu-data.js. */
+function parseCSV(text) {
+  const rows = []; let row = [], cell = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (c === '"') q = false;
+      else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ',') { row.push(cell); cell = ''; }
+    else if (c === '\n' || c === '\r') {
+      if (c === '\r' && text[i + 1] === '\n') i++;
+      row.push(cell); cell = '';
+      if (row.some(x => x !== '')) rows.push(row); row = [];
+    } else cell += c;
+  }
+  row.push(cell); if (row.some(x => x !== '')) rows.push(row);
+  return rows;
+}
+function slugify(s) {
+  return 'sh-' + String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 24);
+}
+function fixDriveUrl(u) {
+  const m = String(u || '').match(/drive\.google\.com\/(?:file\/d|open)\/?\??id?=([\w-]+)/);
+  return m ? ('https://drive.google.com/uc?export=view&id=' + m[1]) : (u || '');
+}
+function sheetToDishes(rows) {
+  if (!rows.length) return null;
+  const head = rows[0].map(h => h.trim().toLowerCase());
+  const col = n => head.indexOf(n);
+  const need = ['name', 'price'];
+  if (col('name') === -1 || col('price') === -1) return null;
+  const out = [];
+  rows.slice(1).forEach(r => {
+    const name = (r[col('name')] || '').trim();
+    if (!name) return;
+    const allergens = ((r[col('allergens')] || '')).split(';').map(s => s.trim().toLowerCase()).filter(Boolean);
+    const av = (r[col('available')] || 'yes').trim().toLowerCase();
+    out.push({
+      id: slugify(name), cat: (r[col('cat')] || 'Mains').trim() || 'Mains',
+      name: name, price: parseFloat(String(r[col('price')]).replace(/[^0-9.]/g, '')) || 0,
+      desc: (r[col('description')] || '').trim(),
+      composition: (r[col('composition')] || '').trim(),
+      allergens: allergens, icon: (r[col('icon')] || '').trim() || 'i-plate',
+      photo: fixDriveUrl((r[col('photo')] || '').trim()),
+      available: !/^(no|false|0|sold)/.test(av)
+    });
+  });
+  return out.length ? out : null;
+}
+function applySheetDishes(dishes) {
+  DISHES.length = 0; dishes.forEach(d => DISHES.push(d));
+  for (const id in cart) if (!DISHES.some(d => d.id === id)) delete cart[id];
+  save();
+  $('#cats').innerHTML = '';
+  renderCats(); renderGrid(); sync();
+}
+function refreshFromSheet() {
+  if (!CONFIG.sheetUrl) return;
+  fetch(CONFIG.sheetUrl + (CONFIG.sheetUrl.includes('?') ? '&' : '?') + 'cb=' + Date.now())
+    .then(r => r.text())
+    .then(txt => {
+      const dishes = sheetToDishes(parseCSV(txt));
+      if (dishes) { applySheetDishes(dishes); toast('Menu updated from Google Sheet'); }
+    })
+    .catch(() => {});
+}
+refreshFromSheet();
+
 /* ==================== ЛОГИКА ==================== */
 let cart = JSON.parse(localStorage.getItem('ml_cart') || '{}');
 let cat = 'All';
@@ -188,7 +261,7 @@ function renderGrid(){
     const sold = d.available === false;
     const art = d.photo
       ? `<img class="photo" src="${d.photo}" alt="${esc(d.name)}">`
-      : `<svg class="art"><use href="#${d.icon}"/></svg>`;
+      : `<svg class="art"><use href="#${d.icon || 'i-plate'}"/></svg>`;
     const ctrl = sold
       ? `<span class="soldout">Sold out</span>`
       : (q
