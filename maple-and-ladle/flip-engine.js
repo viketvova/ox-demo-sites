@@ -153,25 +153,43 @@ function mountScrollWorld(container, config) {
   }
 
   // ---- frame loading: sequential per scene, concurrency 8 ----
-  function loadFrames(s) {
+  function loadFrames(s, focus) {
     if (s.loading) return;
     s.loading = true;
     const sec = SECTIONS[s.si];
     const dir = (isMobile() && sec.framesMobile) ? sec.framesMobile : sec.frames;
     const ext = '.webp';
     const count = sec.frameCount;
-    let next = 0, active = 0;
+    s.enqueued = new Set();
+    s.active = 0;
+    s.lastFocus = focus;
+    // очередь «разлётом»: сначала кадры вокруг текущей позиции, потом к краям —
+    // резкий прыжок в любую сцену анимируется сразу, плотность догружается фоном
+    s.buildQueue = function (f) {
+      const fi = clamp(Math.round(f * (count - 1)), 0, count - 1);
+      const order = [];
+      for (let d = 0; d < count; d++) {
+        const a = fi - d, b = fi + d;
+        if (a >= 0 && !s.enqueued.has(a)) order.push(a);
+        if (b < count && b !== a && !s.enqueued.has(b)) order.push(b);
+        if (order.length >= count) break;
+      }
+      s.queue = order;
+    };
+    s.buildQueue(focus);
     function pump() {
-      while (active < 8 && next < count) {
-        const idx = next++;
-        active++;
+      while (s.active < 8 && s.queue.length) {
+        const idx = s.queue.shift();
+        if (s.enqueued.has(idx)) continue;
+        s.enqueued.add(idx);
+        s.active++;
         const im = new Image();
         im.decoding = 'async';
         im.onload = () => {
           s.frames[idx] = im; s.loadedMap[idx] = true; s.loadedCount++;
-          active--; pump();
+          s.active--; pump();
         };
-        im.onerror = () => { active--; pump(); };
+        im.onerror = () => { s.active--; pump(); };
         im.src = `${dir}/f${String(idx + 1).padStart(3, '0')}${ext}`;
       }
     }
@@ -208,8 +226,13 @@ function mountScrollWorld(container, config) {
 
     for (let i = 0; i < NSEG; i++) {
       const s = SEGMENTS[i];
-      if (y > s.start - 1.6 * vh && y < s.end + 1.6 * vh) loadFrames(s);
       const local = clamp((y - s.start) / (s.end - s.start), 0, 1);
+      if (y > s.start - 1.6 * vh && y < s.end + 1.6 * vh) {
+        if (!s.loading) loadFrames(s, local);
+        else if (s.buildQueue && Math.abs(local - (s.lastFocus == null ? -9 : s.lastFocus)) > 0.12) {
+          s.buildQueue(local); s.lastFocus = local; // посетитель ушёл далеко — перестраиваем очередь
+        }
+      }
       s.target = s.linger ? lingerEase(local, s.linger) : local;
       let outside = 0;
       if (y < s.start) outside = s.start - y; else if (y > s.end) outside = y - s.end;
